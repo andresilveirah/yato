@@ -1,5 +1,12 @@
-const message = 'hello world';
+import ReactDOM from 'react-dom';
+import React from 'react';
+import { store , TodoApp } from './src/app';
 
-export default function (message) {
-  document.write(message);
-}
+const render = () => {
+  ReactDOM.render(
+    <TodoApp todos={store.getState().todos} />,
+    document.getElementById('app')
+  );
+};
+store.subscribe(render);
+render();
