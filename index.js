@@ -4,7 +4,7 @@ import { store , TodoApp } from './src/app';
 
 const render = () => {
   ReactDOM.render(
-    <TodoApp todos={store.getState().todos} />,
+    <TodoApp todos={store.getState().todos} visibilityFilter={store.getState().visibilityFilter} />,
     document.getElementById('app')
   );
 };

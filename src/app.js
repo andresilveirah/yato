@@ -3,6 +3,19 @@ import React from 'react';
 
 const ENTER_KEY_CODE = 13;
 
+const getVisibleTodos = (todos, filter) => {
+  switch (filter) {
+    case 'SHOW_ALL':
+      return todos;
+    case 'SHOW_COMPLETED':
+      return todos.filter(t => t.completed);
+    case 'SHOW_INCOMPLETED':
+      return todos.filter(t => !t.completed);
+    default:
+      return todos;
+  }
+};
+
 const todo = (state, action) => {
   switch (action.type) {
     case 'ADD_TODO':
@@ -45,11 +58,27 @@ const visibilityFilter = (state = 'SHOW_ALL', action) => {
   }
 };
 
+const FilterLink = ({filter, children, currentFilter}) => {
+  if (currentFilter === filter) {
+    return <span>{children}</span>;
+  }
+  return (
+    <a href="#" onClick={() =>{
+      store.dispatch({
+        type: 'SET_VISIBILITY_FILTER',
+        filter
+      });
+    }}>{children}</a>
+  );
+};
+
 const todosApp = combineReducers({ todos, visibilityFilter });
 
 let nextTodoId = 0;
 class TodoApp extends React.Component {
   render() {
+    const visibilityFilter = this.props.visibilityFilter;
+    const todos = getVisibleTodos(this.props.todos, visibilityFilter);
     return (
       <div>
         <input
@@ -76,7 +105,7 @@ class TodoApp extends React.Component {
           }}
           >Add</button>
         <ul>
-          {this.props.todos.map(todo =>
+          {todos.map(todo =>
             <li key={todo.id} onClick={() => {
               store.dispatch({type: 'TOGGLE_TODO', id: todo.id});
             }} style={{textDecoration: todo.completed ? 'line-through' : ''}}>
@@ -84,6 +113,12 @@ class TodoApp extends React.Component {
             </li>
           )}
         </ul>
+        <p>
+          Show:
+          <FilterLink filter='SHOW_ALL' currentFilter={visibilityFilter}>All</FilterLink>,
+          <FilterLink filter='SHOW_COMPLETED' currentFilter={visibilityFilter}>Completed</FilterLink>,
+          <FilterLink filter='SHOW_INCOMPLETED' currentFilter={visibilityFilter}>Incompleted</FilterLink>
+        </p>
       </div>
     );
   }
