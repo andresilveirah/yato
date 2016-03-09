@@ -1,6 +1,8 @@
 import {createStore, combineReducers} from 'redux';
 import React from 'react';
 
+const ENTER_KEY_CODE = 13;
+
 const todo = (state, action) => {
   switch (action.type) {
     case 'ADD_TODO':
@@ -13,7 +15,7 @@ const todo = (state, action) => {
       if(state.id !== action.id){
         return state;
       }
-      return Object.assign({}, state, {completed: true });
+      return Object.assign({}, state, {completed: !state.completed });
     default:
       return state;
   }
@@ -43,44 +45,43 @@ const visibilityFilter = (state = 'SHOW_ALL', action) => {
   }
 };
 
-// this function is a reimplementation from the combineReducer from Redux package
-const combineReducer = (reducers) => {
-  return (state, action) => {
-    return reducers.keys.reduce((reducersObject, reducer) => {
-      reducerObject[reducer] = reducers[reducer](state[reducer], action);
-
-      return reducersObject;
-    },{});
-  };
-};
-
 const todosApp = combineReducers({ todos, visibilityFilter });
-
-// combining reducers without the combineReducer function
-/* const todosApp = (state = {}, action) => {
-   return {
-     todos: todos(state.todos, action),
-     visibilityFilter: visibilityFilter(state.visibilityFilter, action)
-   };
- }; */
 
 let nextTodoId = 0;
 class TodoApp extends React.Component {
   render() {
     return (
       <div>
-        <input ref={node => { this.input = node; }} />
-        <button onClick={() => {
-          store.dispatch({
-            type: 'ADD_TODO',
-            text: this.input.value,
-            id: nextTodoId++
-          });
-          this.input.value = '';
-        }}>Add</button>
+        <input
+          ref={node => { this.input = node; }}
+          onKeyUp={(e) => {
+            if(e.keyCode === ENTER_KEY_CODE) {
+              store.dispatch({
+                type: 'ADD_TODO',
+                text: this.input.value,
+                id: nextTodoId++
+              });
+              this.input.value = '';
+            }
+          }}
+        />
+        <button
+          onClick={() => {
+            store.dispatch({
+              type: 'ADD_TODO',
+              text: this.input.value,
+              id: nextTodoId++
+            });
+            this.input.value = '';
+          }}
+          >Add</button>
         <ul>
           {this.props.todos.map(todo =>
-            <li key={todo.id}>{todo.text}</li>
+            <li key={todo.id} onClick={() => {
+              store.dispatch({type: 'TOGGLE_TODO', id: todo.id});
+            }} style={{textDecoration: todo.completed ? 'line-through' : ''}}>
+              {todo.text}
+            </li>
           )}
         </ul>
       </div>

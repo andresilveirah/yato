@@ -3,10 +3,18 @@ import { todos } from '../src/app';
 describe('todos reducer', () => {
   context('when receiving an action of TOGGLE_TODO with a given id', () => {
     it('should toggle the completed property of the todo with the given id', () => {
-      const action = { type: 'TOGGLE_TODO', id: 1, completed: false };
-      const state = todos([{ text: 'Hello world', id: 1, completed: false }], action);
+      const action = { type: 'TOGGLE_TODO', id: 1 };
+      let state = todos([{ text: 'Hello world', id: 1, completed: false }], action);
 
       expect(state).to.eql([{ text: 'Hello world', id: 1, completed: true }]);
+    });
+
+    it('toggling the same todo again will set completed to false', () => {
+      const action = { type: 'TOGGLE_TODO', id: 1 };
+      let state = todos([{ text: 'Hello world', id: 1, completed: false }], action);
+      state = todos(state, action);
+
+      expect(state).to.eql([{ text: 'Hello world', id: 1, completed: false }]);
     });
   });
 
