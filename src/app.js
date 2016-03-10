@@ -58,16 +58,37 @@ const visibilityFilter = (state = 'SHOW_ALL', action) => {
   }
 };
 
-const FilterLink = ({filter, children, currentFilter, onClick}) => {
-  if (currentFilter === filter) {
+const Link = ({children, active, onClick}) => {
+  if (active) {
     return <span>{children}</span>;
   }
   return (
     <a href="#" onClick={e => {
       e.preventDefault();
-      onClick(filter);
+      onClick();
     }}>{children}</a>
   );
+};
+
+class FilterLink extends React.Component {
+  componentDidMount(){
+    this.unsubscribe = store.subscribe(() => this.forceUpdate());
+  }
+  componentWillUnmount(){
+    this.unsubscribe();
+  }
+  render() {
+    const props = this.props;
+    const state = store.getState();
+
+    return (
+      <Link active={props.filter === state.visibilityFilter} onClick={() => {
+        store.dispatch({type: 'SET_VISIBILITY_FILTER', filter: props.filter});
+      }}>
+        {props.children}
+      </Link>
+    );
+  }
 };
 
 const Todo = ({text, completed, onClick}) => (
@@ -111,12 +132,12 @@ const AddTodo = ({addTodoHandler}) => {
   );
 };
 
-const Footer = ({visibilityFilter, onFilterClick}) => (
+const Footer = () => (
   <p>
     Show:
-    <FilterLink filter='SHOW_ALL' currentFilter={visibilityFilter} onClick={onFilterClick}>All</FilterLink>,
-    <FilterLink filter='SHOW_COMPLETED' currentFilter={visibilityFilter} onClick={onFilterClick}>Completed</FilterLink>,
-    <FilterLink filter='SHOW_INCOMPLETED' currentFilter={visibilityFilter} onClick={onFilterClick}>Incompleted</FilterLink>
+    <FilterLink filter='SHOW_ALL'>All</FilterLink>,
+    <FilterLink filter='SHOW_COMPLETED'>Completed</FilterLink>,
+    <FilterLink filter='SHOW_INCOMPLETED'>Incompleted</FilterLink>
   </p>
 );
 
@@ -133,9 +154,7 @@ const TodoApp = ({todos, visibilityFilter}) => (
       onTodoClick={(id) => {
         store.dispatch({type: 'TOGGLE_TODO', id: id});
       }} />
-    <Footer visibilityFilter={visibilityFilter} onFilterClick={filter =>
-      store.dispatch({ type: 'SET_VISIBILITY_FILTER', filter })
-    } />
+    <Footer />
   </div>
 );
 
