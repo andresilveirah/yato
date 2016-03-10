@@ -1,4 +1,4 @@
-import {createStore, combineReducers} from 'redux';
+import { createStore, combineReducers } from 'redux';
 import React from 'react';
 
 const ENTER_KEY_CODE = 13;
@@ -72,6 +72,7 @@ const Link = ({children, active, onClick}) => {
 
 class FilterLink extends React.Component {
   componentDidMount(){
+    const { store } = this.context;
     this.unsubscribe = store.subscribe(() => this.forceUpdate());
   }
   componentWillUnmount(){
@@ -79,6 +80,7 @@ class FilterLink extends React.Component {
   }
   render() {
     const props = this.props;
+    const { store } = this.context;
     const state = store.getState();
 
     return (
@@ -90,6 +92,7 @@ class FilterLink extends React.Component {
     );
   }
 };
+FilterLink.contextTypes = { store: React.PropTypes.object };
 
 const Todo = ({text, completed, onClick}) => (
   <li onClick={onClick} style={{textDecoration: completed ? 'line-through' : ''}}>
@@ -111,12 +114,14 @@ const TodoList = ({todos, onTodoClick}) => (
 
 class VisibleTodosList extends React.Component {
   componentDidMount(){
+    const { store } = this.context;
     this.unsubscribe = store.subscribe(() => this.forceUpdate());
   }
   componentWillUnmount(){
     this.unsubscribe();
   }
-  render(){
+  render() {
+    const { store } = this.context;
     const state = store.getState();
 
     return (
@@ -128,8 +133,9 @@ class VisibleTodosList extends React.Component {
     );
   }
 }
+VisibleTodosList.contextTypes = { store: React.PropTypes.object };
 
-const AddTodo = ({addTodoHandler}) => {
+const AddTodo = (props, { store }) => {
   let input;
   return (
     <div>
@@ -151,13 +157,14 @@ const AddTodo = ({addTodoHandler}) => {
     </div>
   );
 };
+AddTodo.contextTypes = { store: React.PropTypes.object };
 
 const Footer = () => (
   <p>
     Show:
-    <FilterLink filter='SHOW_ALL'>All</FilterLink>,
-    <FilterLink filter='SHOW_COMPLETED'>Completed</FilterLink>,
-    <FilterLink filter='SHOW_INCOMPLETED'>Incompleted</FilterLink>
+    <FilterLink filter='SHOW_ALL' >All</FilterLink>,
+    <FilterLink filter='SHOW_COMPLETED' >Completed</FilterLink>,
+    <FilterLink filter='SHOW_INCOMPLETED' >Incompleted</FilterLink>
   </p>
 );
 
