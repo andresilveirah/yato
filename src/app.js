@@ -2,6 +2,8 @@ import { createStore, combineReducers } from 'redux';
 import { connect } from 'react-redux';
 import React from 'react';
 
+import { setVisibilityFilter, toggleTodo, addTodo } from './actions';
+
 const ENTER_KEY_CODE = 13;
 
 const getVisibleTodos = (todos, filter) => {
@@ -75,9 +77,7 @@ const mapVisibilityStateToProps = (state, props) => ({
     active: props.filter === state.visibilityFilter
 });
 const mapVisibilityDispatchToProps = (dispatch, props) => ({
-    onClick: () => {
-      dispatch({type: 'SET_VISIBILITY_FILTER', filter: props.filter});
-    }
+    onClick: () => { dispatch(setVisibilityFilter(props.filter)); }
 });
 const FilterLink = connect(mapVisibilityStateToProps, mapVisibilityDispatchToProps)(Link);
 
@@ -103,9 +103,7 @@ const mapTodosStateToProps = (state) => ({
   todos: getVisibleTodos(state.todos, state.visibilityFilter)
 });
 const mapTodosDispatchToProps = (dispatch) => ({
-  onTodoClick: (id) => {
-    dispatch({type: 'TOGGLE_TODO', id: id});
-  }
+  onTodoClick: (id) => { dispatch(toggleTodo(id)); }
 });
 const VisibleTodosList = connect(mapTodosStateToProps, mapTodosDispatchToProps)(TodoList);
 
@@ -117,14 +115,14 @@ let AddTodo = ({ dispatch }) => {
         ref={node => { input = node; }}
         onKeyUp={(e) => {
           if(e.keyCode === ENTER_KEY_CODE) {
-            dispatch({type: 'ADD_TODO', text: input.value, id: nextTodoId++});
+            dispatch(addTodo(input.value));
             input.value = '';
           }
         }}
       />
       <button
         onClick={() => {
-          dispatch({type: 'ADD_TODO', text: input.value, id: nextTodoId++});
+          dispatch(addTodo(input.value));
           input.value = '';
         }}
         >Add</button>
@@ -146,7 +144,6 @@ const Footer = () => (
 
 const todosApp = combineReducers({ todos, visibilityFilter });
 
-let nextTodoId = 0;
 const TodoApp = () => (
   <div>
     <AddTodo />
