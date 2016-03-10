@@ -1,4 +1,5 @@
 import { createStore, combineReducers } from 'redux';
+import { connect } from 'react-redux';
 import React from 'react';
 
 const ENTER_KEY_CODE = 13;
@@ -70,29 +71,15 @@ const Link = ({children, active, onClick}) => {
   );
 };
 
-class FilterLink extends React.Component {
-  componentDidMount(){
-    const { store } = this.context;
-    this.unsubscribe = store.subscribe(() => this.forceUpdate());
-  }
-  componentWillUnmount(){
-    this.unsubscribe();
-  }
-  render() {
-    const props = this.props;
-    const { store } = this.context;
-    const state = store.getState();
-
-    return (
-      <Link active={props.filter === state.visibilityFilter} onClick={() => {
-        store.dispatch({type: 'SET_VISIBILITY_FILTER', filter: props.filter});
-      }}>
-        {props.children}
-      </Link>
-    );
-  }
-};
-FilterLink.contextTypes = { store: React.PropTypes.object };
+const mapVisibilityStateToProps = (state, props) => ({
+    active: props.filter === state.visibilityFilter
+});
+const mapVisibilityDispatchToProps = (dispatch, props) => ({
+    onClick: () => {
+      dispatch({type: 'SET_VISIBILITY_FILTER', filter: props.filter});
+    }
+});
+const FilterLink = connect(mapVisibilityStateToProps, mapVisibilityDispatchToProps)(Link);
 
 const Todo = ({text, completed, onClick}) => (
   <li onClick={onClick} style={{textDecoration: completed ? 'line-through' : ''}}>
@@ -112,30 +99,17 @@ const TodoList = ({todos, onTodoClick}) => (
   </ul>
 );
 
-class VisibleTodosList extends React.Component {
-  componentDidMount(){
-    const { store } = this.context;
-    this.unsubscribe = store.subscribe(() => this.forceUpdate());
+const mapTodosStateToProps = (state) => ({
+  todos: getVisibleTodos(state.todos, state.visibilityFilter)
+});
+const mapTodosDispatchToProps = (dispatch) => ({
+  onTodoClick: (id) => {
+    dispatch({type: 'TOGGLE_TODO', id: id});
   }
-  componentWillUnmount(){
-    this.unsubscribe();
-  }
-  render() {
-    const { store } = this.context;
-    const state = store.getState();
+});
+const VisibleTodosList = connect(mapTodosStateToProps, mapTodosDispatchToProps)(TodoList);
 
-    return (
-      <TodoList
-        todos={getVisibleTodos(state.todos, state.visibilityFilter)}
-        onTodoClick={(id) => {
-          store.dispatch({type: 'TOGGLE_TODO', id: id});
-        }} />
-    );
-  }
-}
-VisibleTodosList.contextTypes = { store: React.PropTypes.object };
-
-const AddTodo = (props, { store }) => {
+let AddTodo = ({ dispatch }) => {
   let input;
   return (
     <div>
@@ -143,21 +117,23 @@ const AddTodo = (props, { store }) => {
         ref={node => { input = node; }}
         onKeyUp={(e) => {
           if(e.keyCode === ENTER_KEY_CODE) {
-            store.dispatch({type: 'ADD_TODO', text: input.value, id: nextTodoId++});
+            dispatch({type: 'ADD_TODO', text: input.value, id: nextTodoId++});
             input.value = '';
           }
         }}
       />
       <button
         onClick={() => {
-          store.dispatch({type: 'ADD_TODO', text: input.value, id: nextTodoId++});
+          dispatch({type: 'ADD_TODO', text: input.value, id: nextTodoId++});
           input.value = '';
         }}
         >Add</button>
     </div>
   );
 };
-AddTodo.contextTypes = { store: React.PropTypes.object };
+// connect with empty params will pass by default the dispatch function to the
+// presentation component, in this case, AddTodo
+AddTodo = connect()(AddTodo);
 
 const Footer = () => (
   <p>
