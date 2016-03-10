@@ -109,6 +109,26 @@ const TodoList = ({todos, onTodoClick}) => (
   </ul>
 );
 
+class VisibleTodosList extends React.Component {
+  componentDidMount(){
+    this.unsubscribe = store.subscribe(() => this.forceUpdate());
+  }
+  componentWillUnmount(){
+    this.unsubscribe();
+  }
+  render(){
+    const state = store.getState();
+
+    return (
+      <TodoList
+        todos={getVisibleTodos(state.todos, state.visibilityFilter)}
+        onTodoClick={(id) => {
+          store.dispatch({type: 'TOGGLE_TODO', id: id});
+        }} />
+    );
+  }
+}
+
 const AddTodo = ({addTodoHandler}) => {
   let input;
   return (
@@ -117,14 +137,14 @@ const AddTodo = ({addTodoHandler}) => {
         ref={node => { input = node; }}
         onKeyUp={(e) => {
           if(e.keyCode === ENTER_KEY_CODE) {
-            addTodoHandler(input.value);
+            store.dispatch({type: 'ADD_TODO', text: input.value, id: nextTodoId++});
             input.value = '';
           }
         }}
       />
       <button
         onClick={() => {
-          addTodoHandler(input.value);
+          store.dispatch({type: 'ADD_TODO', text: input.value, id: nextTodoId++});
           input.value = '';
         }}
         >Add</button>
@@ -144,16 +164,10 @@ const Footer = () => (
 const todosApp = combineReducers({ todos, visibilityFilter });
 
 let nextTodoId = 0;
-const TodoApp = ({todos, visibilityFilter}) => (
+const TodoApp = () => (
   <div>
-    <AddTodo addTodoHandler={(text) => {
-      store.dispatch({type: 'ADD_TODO', text, id: nextTodoId++});
-    }}/>
-    <TodoList
-      todos={getVisibleTodos(todos, visibilityFilter)}
-      onTodoClick={(id) => {
-        store.dispatch({type: 'TOGGLE_TODO', id: id});
-      }} />
+    <AddTodo />
+    <VisibleTodosList />
     <Footer />
   </div>
 );
