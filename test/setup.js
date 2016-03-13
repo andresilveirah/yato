@@ -1,8 +1,8 @@
-import jsdom from 'jsdom';
+import { jsdom } from 'jsdom';
 import expect from 'expect.js';
 
-global.document = jsdom.jsdom('<!doctype html><html><body></body></html>');
+global.document = jsdom('<!doctype html><html><body></body></html>');
 global.window = document.defaultView;
-global.navigator = window.navigator;
+global.navigator = global.window.navigator;
 
 global.expect = expect;
