@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: reducers/visibilityFilter.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,40 +17,37 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: reducers/visibilityFilter.js</h1>
 
     
 
 
 
     
-
-
-    <h3> </h3>
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
     <section>
-        <article><h1>Yato</h1><p>Yet another TODO app</p>
-<h2>Install</h2><p>Run <code>npm install</code> (make sure you have <code>npm</code> installed).</p>
-<h2>Build</h2><p>Run <code>npm run build</code>.</p>
-<p>You can open the app by opening <code>index.html</code> on your browser.</p>
-<h2>Test</h2><p>Run <code>npm test</code> and everything should be :green_heart:</p></article>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @module reducers/visibilityFilter
+ */
+
+/**
+ * @param  {String} state  by default is equal to 'SHOW_ALL'
+ * @param  {Object} action the object containing the filter to be set
+ * @return {String} the filter set
+ */
+const visibilityFilter = (state = 'SHOW_ALL', action) => {
+  switch (action.type) {
+    case 'SET_VISIBILITY_FILTER':
+      return state = action.filter;
+    default:
+      return state;
+  }
+};
+
+export default visibilityFilter;
+</code></pre>
+        </article>
     </section>
-
-
 
 
 

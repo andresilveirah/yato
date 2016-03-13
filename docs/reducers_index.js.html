@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: reducers/index.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,40 +17,34 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: reducers/index.js</h1>
 
     
 
 
 
     
-
-
-    <h3> </h3>
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
     <section>
-        <article><h1>Yato</h1><p>Yet another TODO app</p>
-<h2>Install</h2><p>Run <code>npm install</code> (make sure you have <code>npm</code> installed).</p>
-<h2>Build</h2><p>Run <code>npm run build</code>.</p>
-<p>You can open the app by opening <code>index.html</code> on your browser.</p>
-<h2>Test</h2><p>Run <code>npm test</code> and everything should be :green_heart:</p></article>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @module reducers/todosApp
+ */
+
+import { combineReducers } from 'redux';
+import todos from './todos';
+import visibilityFilter from './visibilityFilter';
+
+/**
+ * uses the combineReducers from the redux package to create an object with the
+ * two (todos, visibilityFilter) known reducers
+ * @type {Object}
+ */
+const todosApp = combineReducers({ todos, visibilityFilter });
+
+export default todosApp;
+</code></pre>
+        </article>
     </section>
-
-
 
 
 
