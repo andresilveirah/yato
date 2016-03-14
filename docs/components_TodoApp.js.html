@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: reducers/visibilityFilter.js</title>
+    <title>JSDoc: Source: components/TodoApp.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: reducers/visibilityFilter.js</h1>
+    <h1 class="page-title">Source: components/TodoApp.js</h1>
 
     
 
@@ -27,24 +27,31 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * @module reducers/visibilityFilter
+ * @module components/TodoApp
  */
+
+import React from 'react';
+
+import Footer from './Footer';
+import AddTodo from '../containers/AddTodo';
+import VisibleTodosList from '../containers/VisibleTodosList';
 
 /**
- * @param  {String} state  by default is equal to 'SHOW_ALL'
- * @param  {Object} action the object containing the filter to be set
- * @return {String} the filter set
+ * Presentation component for the TodoApp
+ * @see {@link module:containers/AddTodo},
+ * {@link module:containers/VisibleTodosList} and
+ * {@link module:components/Footer}
+ * @return {Object} the TodoApp presentation component.
  */
-const visibilityFilter = (state = 'SHOW_ALL', action) => {
-  switch (action.type) {
-    case 'SET_VISIBILITY_FILTER':
-      return state = action.filter;
-    default:
-      return state;
-  }
-};
+const TodoApp = () => (
+  &lt;div>
+    &lt;AddTodo />
+    &lt;VisibleTodosList />
+    &lt;Footer />
+  &lt;/div>
+);
 
-export default visibilityFilter;
+export default TodoApp;
 </code></pre>
         </article>
     </section>

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: reducers/visibilityFilter.js</title>
+    <title>JSDoc: Source: components/Todo.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: reducers/visibilityFilter.js</h1>
+    <h1 class="page-title">Source: components/Todo.js</h1>
 
     
 
@@ -27,24 +27,24 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * @module reducers/visibilityFilter
+ * @module components/Todo
  */
+
+import React from 'react';
 
 /**
- * @param  {String} state  by default is equal to 'SHOW_ALL'
- * @param  {Object} action the object containing the filter to be set
- * @return {String} the filter set
+ * Presentation component for a Todo
+ * @param  {Object} Properties contains the text of the todo, the boolean
+ * for completed and the onClick handler.
+ * @return {Object} the presentation component.
  */
-const visibilityFilter = (state = 'SHOW_ALL', action) => {
-  switch (action.type) {
-    case 'SET_VISIBILITY_FILTER':
-      return state = action.filter;
-    default:
-      return state;
-  }
-};
+const Todo = ({text, completed, onClick}) => (
+  &lt;li onClick={onClick} style={{textDecoration: completed ? 'line-through' : ''}}>
+    {text}
+  &lt;/li>
+);
 
-export default visibilityFilter;
+export default Todo;
 </code></pre>
         </article>
     </section>

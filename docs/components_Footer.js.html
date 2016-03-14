@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: reducers/visibilityFilter.js</title>
+    <title>JSDoc: Source: components/Footer.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: reducers/visibilityFilter.js</h1>
+    <h1 class="page-title">Source: components/Footer.js</h1>
 
     
 
@@ -27,24 +27,28 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * @module reducers/visibilityFilter
+ * @module components/Footer
  */
+
+import React from 'react';
+
+import FilterLink from '../containers/FilterLink';
 
 /**
- * @param  {String} state  by default is equal to 'SHOW_ALL'
- * @param  {Object} action the object containing the filter to be set
- * @return {String} the filter set
+ * Presentation component for a Footer containing three
+ * {@link module:containers/FilterLink}
+ * @return {Object} the Footer presentation component.
  */
-const visibilityFilter = (state = 'SHOW_ALL', action) => {
-  switch (action.type) {
-    case 'SET_VISIBILITY_FILTER':
-      return state = action.filter;
-    default:
-      return state;
-  }
-};
+const Footer = () => (
+  &lt;p>
+    Show:
+    &lt;FilterLink filter='SHOW_ALL' >All&lt;/FilterLink>,
+    &lt;FilterLink filter='SHOW_COMPLETED' >Completed&lt;/FilterLink>,
+    &lt;FilterLink filter='SHOW_INCOMPLETED' >Incompleted&lt;/FilterLink>
+  &lt;/p>
+);
 
-export default visibilityFilter;
+export default Footer;
 </code></pre>
         </article>
     </section>

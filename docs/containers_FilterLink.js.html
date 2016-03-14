@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: reducers/visibilityFilter.js</title>
+    <title>JSDoc: Source: containers/FilterLink.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: reducers/visibilityFilter.js</h1>
+    <h1 class="page-title">Source: containers/FilterLink.js</h1>
 
     
 
@@ -27,24 +27,37 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * @module reducers/visibilityFilter
+ * @module containers/FilterLink
  */
+
+import { connect } from 'react-redux';
+
+import Link from '../components/Link';
+import { setVisibilityFilter } from '../actions/index';
+
+const mapVisibilityStateToProps = (state, props) => ({
+    active: props.filter === state.visibilityFilter
+});
+
+const mapVisibilityDispatchToProps = (dispatch, props) => ({
+    onClick: () => { dispatch(setVisibilityFilter(props.filter)); }
+});
 
 /**
- * @param  {String} state  by default is equal to 'SHOW_ALL'
- * @param  {Object} action the object containing the filter to be set
- * @return {String} the filter set
+ * Generates a container component called FilterLink using the presentation
+ * component {@link module:components/Link}
+ * @param  {Object} mapVisibilityStateToProps a map between the Container own
+ * state to the presentation props.
+ * @param  {Object} mapVisibilityDispatchToProps a map between the store
+ * dispatch state to the presentation props.
+ * @return {Object} the FilterLink container component
  */
-const visibilityFilter = (state = 'SHOW_ALL', action) => {
-  switch (action.type) {
-    case 'SET_VISIBILITY_FILTER':
-      return state = action.filter;
-    default:
-      return state;
-  }
-};
+const FilterLink = connect(
+  mapVisibilityStateToProps,
+  mapVisibilityDispatchToProps
+)(Link);
 
-export default visibilityFilter;
+export default FilterLink;
 </code></pre>
         </article>
     </section>

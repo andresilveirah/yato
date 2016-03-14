@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: reducers/visibilityFilter.js</title>
+    <title>JSDoc: Source: components/Link.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: reducers/visibilityFilter.js</h1>
+    <h1 class="page-title">Source: components/Link.js</h1>
 
     
 
@@ -27,24 +27,30 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * @module reducers/visibilityFilter
+ * @module components/Link
  */
+
+import React from 'react';
 
 /**
- * @param  {String} state  by default is equal to 'SHOW_ALL'
- * @param  {Object} action the object containing the filter to be set
- * @return {String} the filter set
+ * Presentation component for a Link
+ * @param  {Object} Properties contains the children (component "innerHTML"
+ * sort of), Boolean for active and a onClick handler.
+ * @return {Object} the presentation Link component.
  */
-const visibilityFilter = (state = 'SHOW_ALL', action) => {
-  switch (action.type) {
-    case 'SET_VISIBILITY_FILTER':
-      return state = action.filter;
-    default:
-      return state;
+const Link = ({children, active, onClick}) => {
+  if (active) {
+    return &lt;span>{children}&lt;/span>;
   }
+  return (
+    &lt;a href="#" onClick={e => {
+      e.preventDefault();
+      onClick();
+    }}>{children}&lt;/a>
+  );
 };
 
-export default visibilityFilter;
+export default Link;
 </code></pre>
         </article>
     </section>

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: reducers/visibilityFilter.js</title>
+    <title>JSDoc: Source: components/TodosList.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: reducers/visibilityFilter.js</h1>
+    <h1 class="page-title">Source: components/TodosList.js</h1>
 
     
 
@@ -27,24 +27,32 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * @module reducers/visibilityFilter
+ * @module components/TodosList
  */
+
+import React from 'react';
+import Todo from './Todo';
 
 /**
- * @param  {String} state  by default is equal to 'SHOW_ALL'
- * @param  {Object} action the object containing the filter to be set
- * @return {String} the filter set
+ * Presentation component for a TodosList
+ * @param  {Object} Properties contains the collection of todos and the onClick
+ * handler.
+ * @see {@link module:components/Todo}
+ * @return {Object} the TodosList presentation component.
  */
-const visibilityFilter = (state = 'SHOW_ALL', action) => {
-  switch (action.type) {
-    case 'SET_VISIBILITY_FILTER':
-      return state = action.filter;
-    default:
-      return state;
-  }
-};
+const TodosList = ({todos, onTodoClick}) => (
+  &lt;ul>
+    {todos.map(todo =>
+      &lt;Todo
+        key={todo.id}
+        text={todo.text}
+        completed={todo.completed}
+        onClick={() => { onTodoClick(todo.id); }} />
+    )}
+  &lt;/ul>
+);
 
-export default visibilityFilter;
+export default TodosList;
 </code></pre>
         </article>
     </section>

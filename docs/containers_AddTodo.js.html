@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: reducers/visibilityFilter.js</title>
+    <title>JSDoc: Source: containers/AddTodo.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: reducers/visibilityFilter.js</h1>
+    <h1 class="page-title">Source: containers/AddTodo.js</h1>
 
     
 
@@ -27,24 +27,49 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * @module reducers/visibilityFilter
+ * @module containers/AddTodo
  */
 
-/**
- * @param  {String} state  by default is equal to 'SHOW_ALL'
- * @param  {Object} action the object containing the filter to be set
- * @return {String} the filter set
- */
-const visibilityFilter = (state = 'SHOW_ALL', action) => {
-  switch (action.type) {
-    case 'SET_VISIBILITY_FILTER':
-      return state = action.filter;
-    default:
-      return state;
-  }
+import React from 'react';
+import { connect } from 'react-redux';
+
+import { addTodo } from '../actions/index';
+
+const ENTER_KEY_CODE = 13;
+
+let AddTodo = ({ dispatch }) => {
+  let input;
+  return (
+    &lt;div>
+      &lt;input
+        ref={node => { input = node; }}
+        onKeyUp={(e) => {
+          if(e.keyCode === ENTER_KEY_CODE) {
+            dispatch(addTodo(input.value));
+            input.value = '';
+          }
+        }}
+      />
+      &lt;button
+        onClick={() => {
+          dispatch(addTodo(input.value));
+          input.value = '';
+        }}
+        >Add&lt;/button>
+    &lt;/div>
+  );
 };
 
-export default visibilityFilter;
+/**
+ * Generates a container component called AddTodo using the presentation
+ * component. The connect method when called without parameters will, by
+ * default, just forward the dispatch method from the store to the presentation
+ * component.
+ * @return {Object} the AddTodo container component
+ */
+AddTodo = connect()(AddTodo);
+
+export default AddTodo;
 </code></pre>
         </article>
     </section>
