@@ -3,8 +3,8 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 
-import reducers from './src/reducers/';
-import TodoApp from './src/components/TodoApp';
+import reducers from './reducers/';
+import TodoApp from './components/TodoApp';
 
 const store = createStore(reducers);
 

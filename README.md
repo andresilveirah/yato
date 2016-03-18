@@ -9,7 +9,7 @@ Run `npm install` (make sure you have `npm` installed).
 
 Run `npm run build`.
 
-You can open the app by opening `index.html` on your browser.
+You can try it out locally `dist/index.html` on your browser or  [codebikeandmore.com/yato](http://codebikeandmore.com/yato/)
 
 ## Test
 

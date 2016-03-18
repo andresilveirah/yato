@@ -54,15 +54,27 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _app = __webpack_require__(159);
+	var _reactRedux = __webpack_require__(159);
+
+	var _redux = __webpack_require__(165);
+
+	var _reducers = __webpack_require__(180);
+
+	var _reducers2 = _interopRequireDefault(_reducers);
+
+	var _TodoApp = __webpack_require__(183);
+
+	var _TodoApp2 = _interopRequireDefault(_TodoApp);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var render = function render() {
-	  _reactDom2.default.render(_react2.default.createElement(_app.TodoApp, { todos: _app.store.getState().todos }), document.getElementById('app'));
-	};
-	_app.store.subscribe(render);
-	render();
+	var store = (0, _redux.createStore)(_reducers2.default);
+
+	_reactDom2.default.render(_react2.default.createElement(
+	  _reactRedux.Provider,
+	  { store: store },
+	  _react2.default.createElement(_TodoApp2.default, null)
+	), document.getElementById('app'));
 
 /***/ },
 /* 1 */
@@ -19671,161 +19683,21 @@
 
 	'use strict';
 
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.TodoApp = exports.store = exports.todos = undefined;
+	exports.__esModule = true;
+	exports.connect = exports.Provider = undefined;
 
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	var _Provider = __webpack_require__(160);
 
-	var _redux = __webpack_require__(160);
+	var _Provider2 = _interopRequireDefault(_Provider);
 
-	var _react = __webpack_require__(147);
+	var _connect = __webpack_require__(162);
 
-	var _react2 = _interopRequireDefault(_react);
+	var _connect2 = _interopRequireDefault(_connect);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-	var todo = function todo(state, action) {
-	  switch (action.type) {
-	    case 'ADD_TODO':
-	      return {
-	        id: action.id,
-	        text: action.text,
-	        completed: action.completed
-	      };
-	    case 'TOGGLE_TODO':
-	      if (state.id !== action.id) {
-	        return state;
-	      }
-	      return Object.assign({}, state, { completed: true });
-	    default:
-	      return state;
-	  }
-	};
-
-	var todos = function todos() {
-	  var state = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
-	  var action = arguments[1];
-
-	  var isNotEmpty = function isNotEmpty(text) {
-	    return text.replace(/\s/g, '').length > 0;
-	  };
-
-	  switch (action.type) {
-	    case 'ADD_TODO':
-	      return isNotEmpty(action.text) ? [].concat(_toConsumableArray(state), [todo(undefined, action)]) : state;
-	    case 'REMOVE_TODO':
-	      return state.filter(function (t) {
-	        return t.id !== action.id;
-	      });
-	    case 'TOGGLE_TODO':
-	      return state.map(function (t) {
-	        return todo(t, action);
-	      });
-	    default:
-	      return state;
-	  }
-	};
-
-	var visibilityFilter = function visibilityFilter() {
-	  var state = arguments.length <= 0 || arguments[0] === undefined ? 'SHOW_ALL' : arguments[0];
-	  var action = arguments[1];
-
-	  switch (action.type) {
-	    case 'SET_VISIBILITY_FILTER':
-	      return state = action.filter;
-	    default:
-	      return state;
-	  }
-	};
-
-	// this function is a reimplementation from the combineReducer from Redux package
-	var combineReducer = function combineReducer(reducers) {
-	  return function (state, action) {
-	    return reducers.keys.reduce(function (reducersObject, reducer) {
-	      reducerObject[reducer] = reducers[reducer](state[reducer], action);
-
-	      return reducersObject;
-	    }, {});
-	  };
-	};
-
-	var todosApp = (0, _redux.combineReducers)({ todos: todos, visibilityFilter: visibilityFilter });
-
-	// combining reducers without the combineReducer function
-	// const todosApp = (state = {}, action) => {
-	//   return {
-	//     todos: todos(state.todos, action),
-	//     visibilityFilter: visibilityFilter(state.visibilityFilter, action)
-	//   };
-	// };
-
-	var nextTodoId = 0;
-
-	var TodoApp = function (_React$Component) {
-	  _inherits(TodoApp, _React$Component);
-
-	  function TodoApp() {
-	    _classCallCheck(this, TodoApp);
-
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(TodoApp).apply(this, arguments));
-	  }
-
-	  _createClass(TodoApp, [{
-	    key: 'render',
-	    value: function render() {
-	      var _this2 = this;
-
-	      return _react2.default.createElement(
-	        'div',
-	        null,
-	        _react2.default.createElement('input', { ref: function ref(node) {
-	            _this2.input = node;
-	          } }),
-	        _react2.default.createElement(
-	          'button',
-	          { onClick: function onClick() {
-	              store.dispatch({
-	                type: 'ADD_TODO',
-	                text: _this2.input.value,
-	                id: nextTodoId++
-	              });
-	              _this2.input.value = '';
-	            } },
-	          'Add'
-	        ),
-	        _react2.default.createElement(
-	          'ul',
-	          null,
-	          this.props.todos.map(function (todo) {
-	            return _react2.default.createElement(
-	              'li',
-	              { key: todo.id },
-	              todo.text
-	            );
-	          })
-	        )
-	      );
-	    }
-	  }]);
-
-	  return TodoApp;
-	}(_react2.default.Component);
-
-	var store = (0, _redux.createStore)(todosApp);
-
-	exports.todos = todos;
-	exports.store = store;
-	exports.TodoApp = TodoApp;
+	exports.Provider = _Provider2["default"];
+	exports.connect = _connect2["default"];
 
 /***/ },
 /* 160 */
@@ -19834,29 +19706,505 @@
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 
 	exports.__esModule = true;
+	exports["default"] = undefined;
+
+	var _react = __webpack_require__(147);
+
+	var _storeShape = __webpack_require__(161);
+
+	var _storeShape2 = _interopRequireDefault(_storeShape);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var didWarnAboutReceivingStore = false;
+	function warnAboutReceivingStore() {
+	  if (didWarnAboutReceivingStore) {
+	    return;
+	  }
+	  didWarnAboutReceivingStore = true;
+
+	  /* eslint-disable no-console */
+	  if (typeof console !== 'undefined' && typeof console.error === 'function') {
+	    console.error('<Provider> does not support changing `store` on the fly. ' + 'It is most likely that you see this error because you updated to ' + 'Redux 2.x and React Redux 2.x which no longer hot reload reducers ' + 'automatically. See https://github.com/rackt/react-redux/releases/' + 'tag/v2.0.0 for the migration instructions.');
+	  }
+	  /* eslint-disable no-console */
+	}
+
+	var Provider = function (_Component) {
+	  _inherits(Provider, _Component);
+
+	  Provider.prototype.getChildContext = function getChildContext() {
+	    return { store: this.store };
+	  };
+
+	  function Provider(props, context) {
+	    _classCallCheck(this, Provider);
+
+	    var _this = _possibleConstructorReturn(this, _Component.call(this, props, context));
+
+	    _this.store = props.store;
+	    return _this;
+	  }
+
+	  Provider.prototype.render = function render() {
+	    var children = this.props.children;
+
+	    return _react.Children.only(children);
+	  };
+
+	  return Provider;
+	}(_react.Component);
+
+	exports["default"] = Provider;
+
+	if (process.env.NODE_ENV !== 'production') {
+	  Provider.prototype.componentWillReceiveProps = function (nextProps) {
+	    var store = this.store;
+	    var nextStore = nextProps.store;
+
+	    if (store !== nextStore) {
+	      warnAboutReceivingStore();
+	    }
+	  };
+	}
+
+	Provider.propTypes = {
+	  store: _storeShape2["default"].isRequired,
+	  children: _react.PropTypes.element.isRequired
+	};
+	Provider.childContextTypes = {
+	  store: _storeShape2["default"].isRequired
+	};
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+
+/***/ },
+/* 161 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _react = __webpack_require__(147);
+
+	exports["default"] = _react.PropTypes.shape({
+	  subscribe: _react.PropTypes.func.isRequired,
+	  dispatch: _react.PropTypes.func.isRequired,
+	  getState: _react.PropTypes.func.isRequired
+	});
+
+/***/ },
+/* 162 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	exports.__esModule = true;
+	exports["default"] = connect;
+
+	var _react = __webpack_require__(147);
+
+	var _storeShape = __webpack_require__(161);
+
+	var _storeShape2 = _interopRequireDefault(_storeShape);
+
+	var _shallowEqual = __webpack_require__(163);
+
+	var _shallowEqual2 = _interopRequireDefault(_shallowEqual);
+
+	var _wrapActionCreators = __webpack_require__(164);
+
+	var _wrapActionCreators2 = _interopRequireDefault(_wrapActionCreators);
+
+	var _isPlainObject = __webpack_require__(175);
+
+	var _isPlainObject2 = _interopRequireDefault(_isPlainObject);
+
+	var _hoistNonReactStatics = __webpack_require__(178);
+
+	var _hoistNonReactStatics2 = _interopRequireDefault(_hoistNonReactStatics);
+
+	var _invariant = __webpack_require__(179);
+
+	var _invariant2 = _interopRequireDefault(_invariant);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var defaultMapStateToProps = function defaultMapStateToProps(state) {
+	  return {};
+	}; // eslint-disable-line no-unused-vars
+	var defaultMapDispatchToProps = function defaultMapDispatchToProps(dispatch) {
+	  return { dispatch: dispatch };
+	};
+	var defaultMergeProps = function defaultMergeProps(stateProps, dispatchProps, parentProps) {
+	  return _extends({}, parentProps, stateProps, dispatchProps);
+	};
+
+	function getDisplayName(WrappedComponent) {
+	  return WrappedComponent.displayName || WrappedComponent.name || 'Component';
+	}
+
+	function checkStateShape(stateProps, dispatch) {
+	  (0, _invariant2["default"])((0, _isPlainObject2["default"])(stateProps), '`%sToProps` must return an object. Instead received %s.', dispatch ? 'mapDispatch' : 'mapState', stateProps);
+	  return stateProps;
+	}
+
+	// Helps track hot reloading.
+	var nextVersion = 0;
+
+	function connect(mapStateToProps, mapDispatchToProps, mergeProps) {
+	  var options = arguments.length <= 3 || arguments[3] === undefined ? {} : arguments[3];
+
+	  var shouldSubscribe = Boolean(mapStateToProps);
+	  var mapState = mapStateToProps || defaultMapStateToProps;
+	  var mapDispatch = (0, _isPlainObject2["default"])(mapDispatchToProps) ? (0, _wrapActionCreators2["default"])(mapDispatchToProps) : mapDispatchToProps || defaultMapDispatchToProps;
+
+	  var finalMergeProps = mergeProps || defaultMergeProps;
+	  var checkMergedEquals = finalMergeProps !== defaultMergeProps;
+	  var _options$pure = options.pure;
+	  var pure = _options$pure === undefined ? true : _options$pure;
+	  var _options$withRef = options.withRef;
+	  var withRef = _options$withRef === undefined ? false : _options$withRef;
+
+	  // Helps track hot reloading.
+
+	  var version = nextVersion++;
+
+	  function computeMergedProps(stateProps, dispatchProps, parentProps) {
+	    var mergedProps = finalMergeProps(stateProps, dispatchProps, parentProps);
+	    (0, _invariant2["default"])((0, _isPlainObject2["default"])(mergedProps), '`mergeProps` must return an object. Instead received %s.', mergedProps);
+	    return mergedProps;
+	  }
+
+	  return function wrapWithConnect(WrappedComponent) {
+	    var Connect = function (_Component) {
+	      _inherits(Connect, _Component);
+
+	      Connect.prototype.shouldComponentUpdate = function shouldComponentUpdate() {
+	        return !pure || this.haveOwnPropsChanged || this.hasStoreStateChanged;
+	      };
+
+	      function Connect(props, context) {
+	        _classCallCheck(this, Connect);
+
+	        var _this = _possibleConstructorReturn(this, _Component.call(this, props, context));
+
+	        _this.version = version;
+	        _this.store = props.store || context.store;
+
+	        (0, _invariant2["default"])(_this.store, 'Could not find "store" in either the context or ' + ('props of "' + _this.constructor.displayName + '". ') + 'Either wrap the root component in a <Provider>, ' + ('or explicitly pass "store" as a prop to "' + _this.constructor.displayName + '".'));
+
+	        var storeState = _this.store.getState();
+	        _this.state = { storeState: storeState };
+	        _this.clearCache();
+	        return _this;
+	      }
+
+	      Connect.prototype.computeStateProps = function computeStateProps(store, props) {
+	        if (!this.finalMapStateToProps) {
+	          return this.configureFinalMapState(store, props);
+	        }
+
+	        var state = store.getState();
+	        var stateProps = this.doStatePropsDependOnOwnProps ? this.finalMapStateToProps(state, props) : this.finalMapStateToProps(state);
+
+	        return checkStateShape(stateProps);
+	      };
+
+	      Connect.prototype.configureFinalMapState = function configureFinalMapState(store, props) {
+	        var mappedState = mapState(store.getState(), props);
+	        var isFactory = typeof mappedState === 'function';
+
+	        this.finalMapStateToProps = isFactory ? mappedState : mapState;
+	        this.doStatePropsDependOnOwnProps = this.finalMapStateToProps.length !== 1;
+
+	        return isFactory ? this.computeStateProps(store, props) : checkStateShape(mappedState);
+	      };
+
+	      Connect.prototype.computeDispatchProps = function computeDispatchProps(store, props) {
+	        if (!this.finalMapDispatchToProps) {
+	          return this.configureFinalMapDispatch(store, props);
+	        }
+
+	        var dispatch = store.dispatch;
+
+	        var dispatchProps = this.doDispatchPropsDependOnOwnProps ? this.finalMapDispatchToProps(dispatch, props) : this.finalMapDispatchToProps(dispatch);
+
+	        return checkStateShape(dispatchProps, true);
+	      };
+
+	      Connect.prototype.configureFinalMapDispatch = function configureFinalMapDispatch(store, props) {
+	        var mappedDispatch = mapDispatch(store.dispatch, props);
+	        var isFactory = typeof mappedDispatch === 'function';
+
+	        this.finalMapDispatchToProps = isFactory ? mappedDispatch : mapDispatch;
+	        this.doDispatchPropsDependOnOwnProps = this.finalMapDispatchToProps.length !== 1;
+
+	        return isFactory ? this.computeDispatchProps(store, props) : checkStateShape(mappedDispatch, true);
+	      };
+
+	      Connect.prototype.updateStatePropsIfNeeded = function updateStatePropsIfNeeded() {
+	        var nextStateProps = this.computeStateProps(this.store, this.props);
+	        if (this.stateProps && (0, _shallowEqual2["default"])(nextStateProps, this.stateProps)) {
+	          return false;
+	        }
+
+	        this.stateProps = nextStateProps;
+	        return true;
+	      };
+
+	      Connect.prototype.updateDispatchPropsIfNeeded = function updateDispatchPropsIfNeeded() {
+	        var nextDispatchProps = this.computeDispatchProps(this.store, this.props);
+	        if (this.dispatchProps && (0, _shallowEqual2["default"])(nextDispatchProps, this.dispatchProps)) {
+	          return false;
+	        }
+
+	        this.dispatchProps = nextDispatchProps;
+	        return true;
+	      };
+
+	      Connect.prototype.updateMergedPropsIfNeeded = function updateMergedPropsIfNeeded() {
+	        var nextMergedProps = computeMergedProps(this.stateProps, this.dispatchProps, this.props);
+	        if (this.mergedProps && checkMergedEquals && (0, _shallowEqual2["default"])(nextMergedProps, this.mergedProps)) {
+	          return false;
+	        }
+
+	        this.mergedProps = nextMergedProps;
+	        return true;
+	      };
+
+	      Connect.prototype.isSubscribed = function isSubscribed() {
+	        return typeof this.unsubscribe === 'function';
+	      };
+
+	      Connect.prototype.trySubscribe = function trySubscribe() {
+	        if (shouldSubscribe && !this.unsubscribe) {
+	          this.unsubscribe = this.store.subscribe(this.handleChange.bind(this));
+	          this.handleChange();
+	        }
+	      };
+
+	      Connect.prototype.tryUnsubscribe = function tryUnsubscribe() {
+	        if (this.unsubscribe) {
+	          this.unsubscribe();
+	          this.unsubscribe = null;
+	        }
+	      };
+
+	      Connect.prototype.componentDidMount = function componentDidMount() {
+	        this.trySubscribe();
+	      };
+
+	      Connect.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
+	        if (!pure || !(0, _shallowEqual2["default"])(nextProps, this.props)) {
+	          this.haveOwnPropsChanged = true;
+	        }
+	      };
+
+	      Connect.prototype.componentWillUnmount = function componentWillUnmount() {
+	        this.tryUnsubscribe();
+	        this.clearCache();
+	      };
+
+	      Connect.prototype.clearCache = function clearCache() {
+	        this.dispatchProps = null;
+	        this.stateProps = null;
+	        this.mergedProps = null;
+	        this.haveOwnPropsChanged = true;
+	        this.hasStoreStateChanged = true;
+	        this.renderedElement = null;
+	        this.finalMapDispatchToProps = null;
+	        this.finalMapStateToProps = null;
+	      };
+
+	      Connect.prototype.handleChange = function handleChange() {
+	        if (!this.unsubscribe) {
+	          return;
+	        }
+
+	        var prevStoreState = this.state.storeState;
+	        var storeState = this.store.getState();
+
+	        if (!pure || prevStoreState !== storeState) {
+	          this.hasStoreStateChanged = true;
+	          this.setState({ storeState: storeState });
+	        }
+	      };
+
+	      Connect.prototype.getWrappedInstance = function getWrappedInstance() {
+	        (0, _invariant2["default"])(withRef, 'To access the wrapped instance, you need to specify ' + '{ withRef: true } as the fourth argument of the connect() call.');
+
+	        return this.refs.wrappedInstance;
+	      };
+
+	      Connect.prototype.render = function render() {
+	        var haveOwnPropsChanged = this.haveOwnPropsChanged;
+	        var hasStoreStateChanged = this.hasStoreStateChanged;
+	        var renderedElement = this.renderedElement;
+
+	        this.haveOwnPropsChanged = false;
+	        this.hasStoreStateChanged = false;
+
+	        var shouldUpdateStateProps = true;
+	        var shouldUpdateDispatchProps = true;
+	        if (pure && renderedElement) {
+	          shouldUpdateStateProps = hasStoreStateChanged || haveOwnPropsChanged && this.doStatePropsDependOnOwnProps;
+	          shouldUpdateDispatchProps = haveOwnPropsChanged && this.doDispatchPropsDependOnOwnProps;
+	        }
+
+	        var haveStatePropsChanged = false;
+	        var haveDispatchPropsChanged = false;
+	        if (shouldUpdateStateProps) {
+	          haveStatePropsChanged = this.updateStatePropsIfNeeded();
+	        }
+	        if (shouldUpdateDispatchProps) {
+	          haveDispatchPropsChanged = this.updateDispatchPropsIfNeeded();
+	        }
+
+	        var haveMergedPropsChanged = true;
+	        if (haveStatePropsChanged || haveDispatchPropsChanged || haveOwnPropsChanged) {
+	          haveMergedPropsChanged = this.updateMergedPropsIfNeeded();
+	        } else {
+	          haveMergedPropsChanged = false;
+	        }
+
+	        if (!haveMergedPropsChanged && renderedElement) {
+	          return renderedElement;
+	        }
+
+	        if (withRef) {
+	          this.renderedElement = (0, _react.createElement)(WrappedComponent, _extends({}, this.mergedProps, {
+	            ref: 'wrappedInstance'
+	          }));
+	        } else {
+	          this.renderedElement = (0, _react.createElement)(WrappedComponent, this.mergedProps);
+	        }
+
+	        return this.renderedElement;
+	      };
+
+	      return Connect;
+	    }(_react.Component);
+
+	    Connect.displayName = 'Connect(' + getDisplayName(WrappedComponent) + ')';
+	    Connect.WrappedComponent = WrappedComponent;
+	    Connect.contextTypes = {
+	      store: _storeShape2["default"]
+	    };
+	    Connect.propTypes = {
+	      store: _storeShape2["default"]
+	    };
+
+	    if (process.env.NODE_ENV !== 'production') {
+	      Connect.prototype.componentWillUpdate = function componentWillUpdate() {
+	        if (this.version === version) {
+	          return;
+	        }
+
+	        // We are hot reloading!
+	        this.version = version;
+	        this.trySubscribe();
+	        this.clearCache();
+	      };
+	    }
+
+	    return (0, _hoistNonReactStatics2["default"])(Connect, WrappedComponent);
+	  };
+	}
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+
+/***/ },
+/* 163 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	exports.__esModule = true;
+	exports["default"] = shallowEqual;
+	function shallowEqual(objA, objB) {
+	  if (objA === objB) {
+	    return true;
+	  }
+
+	  var keysA = Object.keys(objA);
+	  var keysB = Object.keys(objB);
+
+	  if (keysA.length !== keysB.length) {
+	    return false;
+	  }
+
+	  // Test for A's keys different from B.
+	  var hasOwn = Object.prototype.hasOwnProperty;
+	  for (var i = 0; i < keysA.length; i++) {
+	    if (!hasOwn.call(objB, keysA[i]) || objA[keysA[i]] !== objB[keysA[i]]) {
+	      return false;
+	    }
+	  }
+
+	  return true;
+	}
+
+/***/ },
+/* 164 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	exports["default"] = wrapActionCreators;
+
+	var _redux = __webpack_require__(165);
+
+	function wrapActionCreators(actionCreators) {
+	  return function (dispatch) {
+	    return (0, _redux.bindActionCreators)(actionCreators, dispatch);
+	  };
+	}
+
+/***/ },
+/* 165 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
+
+	exports.__esModule = true;
 	exports.compose = exports.applyMiddleware = exports.bindActionCreators = exports.combineReducers = exports.createStore = undefined;
 
-	var _createStore = __webpack_require__(161);
+	var _createStore = __webpack_require__(166);
 
 	var _createStore2 = _interopRequireDefault(_createStore);
 
-	var _combineReducers = __webpack_require__(165);
+	var _combineReducers = __webpack_require__(170);
 
 	var _combineReducers2 = _interopRequireDefault(_combineReducers);
 
-	var _bindActionCreators = __webpack_require__(167);
+	var _bindActionCreators = __webpack_require__(172);
 
 	var _bindActionCreators2 = _interopRequireDefault(_bindActionCreators);
 
-	var _applyMiddleware = __webpack_require__(168);
+	var _applyMiddleware = __webpack_require__(173);
 
 	var _applyMiddleware2 = _interopRequireDefault(_applyMiddleware);
 
-	var _compose = __webpack_require__(169);
+	var _compose = __webpack_require__(174);
 
 	var _compose2 = _interopRequireDefault(_compose);
 
-	var _warning = __webpack_require__(166);
+	var _warning = __webpack_require__(171);
 
 	var _warning2 = _interopRequireDefault(_warning);
 
@@ -19880,7 +20228,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 161 */
+/* 166 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -19889,7 +20237,7 @@
 	exports.ActionTypes = undefined;
 	exports["default"] = createStore;
 
-	var _isPlainObject = __webpack_require__(162);
+	var _isPlainObject = __webpack_require__(167);
 
 	var _isPlainObject2 = _interopRequireDefault(_isPlainObject);
 
@@ -20101,11 +20449,11 @@
 	}
 
 /***/ },
-/* 162 */
+/* 167 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isHostObject = __webpack_require__(163),
-	    isObjectLike = __webpack_require__(164);
+	var isHostObject = __webpack_require__(168),
+	    isObjectLike = __webpack_require__(169);
 
 	/** `Object#toString` result references. */
 	var objectTag = '[object Object]';
@@ -20173,7 +20521,7 @@
 
 
 /***/ },
-/* 163 */
+/* 168 */
 /***/ function(module, exports) {
 
 	/**
@@ -20199,7 +20547,7 @@
 
 
 /***/ },
-/* 164 */
+/* 169 */
 /***/ function(module, exports) {
 
 	/**
@@ -20233,7 +20581,7 @@
 
 
 /***/ },
-/* 165 */
+/* 170 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -20241,13 +20589,13 @@
 	exports.__esModule = true;
 	exports["default"] = combineReducers;
 
-	var _createStore = __webpack_require__(161);
+	var _createStore = __webpack_require__(166);
 
-	var _isPlainObject = __webpack_require__(162);
+	var _isPlainObject = __webpack_require__(167);
 
 	var _isPlainObject2 = _interopRequireDefault(_isPlainObject);
 
-	var _warning = __webpack_require__(166);
+	var _warning = __webpack_require__(171);
 
 	var _warning2 = _interopRequireDefault(_warning);
 
@@ -20366,7 +20714,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 166 */
+/* 171 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -20395,7 +20743,7 @@
 	}
 
 /***/ },
-/* 167 */
+/* 172 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -20451,7 +20799,7 @@
 	}
 
 /***/ },
-/* 168 */
+/* 173 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -20461,7 +20809,7 @@
 	exports.__esModule = true;
 	exports["default"] = applyMiddleware;
 
-	var _compose = __webpack_require__(169);
+	var _compose = __webpack_require__(174);
 
 	var _compose2 = _interopRequireDefault(_compose);
 
@@ -20513,7 +20861,7 @@
 	}
 
 /***/ },
-/* 169 */
+/* 174 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -20545,6 +20893,853 @@
 	    }, last.apply(undefined, arguments));
 	  };
 	}
+
+/***/ },
+/* 175 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var isHostObject = __webpack_require__(176),
+	    isObjectLike = __webpack_require__(177);
+
+	/** `Object#toString` result references. */
+	var objectTag = '[object Object]';
+
+	/** Used for built-in method references. */
+	var objectProto = Object.prototype;
+
+	/** Used to resolve the decompiled source of functions. */
+	var funcToString = Function.prototype.toString;
+
+	/** Used to infer the `Object` constructor. */
+	var objectCtorString = funcToString.call(Object);
+
+	/**
+	 * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+	 * of values.
+	 */
+	var objectToString = objectProto.toString;
+
+	/** Built-in value references. */
+	var getPrototypeOf = Object.getPrototypeOf;
+
+	/**
+	 * Checks if `value` is a plain object, that is, an object created by the
+	 * `Object` constructor or one with a `[[Prototype]]` of `null`.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is a plain object, else `false`.
+	 * @example
+	 *
+	 * function Foo() {
+	 *   this.a = 1;
+	 * }
+	 *
+	 * _.isPlainObject(new Foo);
+	 * // => false
+	 *
+	 * _.isPlainObject([1, 2, 3]);
+	 * // => false
+	 *
+	 * _.isPlainObject({ 'x': 0, 'y': 0 });
+	 * // => true
+	 *
+	 * _.isPlainObject(Object.create(null));
+	 * // => true
+	 */
+	function isPlainObject(value) {
+	  if (!isObjectLike(value) ||
+	      objectToString.call(value) != objectTag || isHostObject(value)) {
+	    return false;
+	  }
+	  var proto = getPrototypeOf(value);
+	  if (proto === null) {
+	    return true;
+	  }
+	  var Ctor = proto.constructor;
+	  return (typeof Ctor == 'function' &&
+	    Ctor instanceof Ctor && funcToString.call(Ctor) == objectCtorString);
+	}
+
+	module.exports = isPlainObject;
+
+
+/***/ },
+/* 176 */
+/***/ function(module, exports) {
+
+	/**
+	 * Checks if `value` is a host object in IE < 9.
+	 *
+	 * @private
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is a host object, else `false`.
+	 */
+	function isHostObject(value) {
+	  // Many host objects are `Object` objects that can coerce to strings
+	  // despite having improperly defined `toString` methods.
+	  var result = false;
+	  if (value != null && typeof value.toString != 'function') {
+	    try {
+	      result = !!(value + '');
+	    } catch (e) {}
+	  }
+	  return result;
+	}
+
+	module.exports = isHostObject;
+
+
+/***/ },
+/* 177 */
+/***/ function(module, exports) {
+
+	/**
+	 * Checks if `value` is object-like. A value is object-like if it's not `null`
+	 * and has a `typeof` result of "object".
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+	 * @example
+	 *
+	 * _.isObjectLike({});
+	 * // => true
+	 *
+	 * _.isObjectLike([1, 2, 3]);
+	 * // => true
+	 *
+	 * _.isObjectLike(_.noop);
+	 * // => false
+	 *
+	 * _.isObjectLike(null);
+	 * // => false
+	 */
+	function isObjectLike(value) {
+	  return !!value && typeof value == 'object';
+	}
+
+	module.exports = isObjectLike;
+
+
+/***/ },
+/* 178 */
+/***/ function(module, exports) {
+
+	/**
+	 * Copyright 2015, Yahoo! Inc.
+	 * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
+	 */
+	'use strict';
+
+	var REACT_STATICS = {
+	    childContextTypes: true,
+	    contextTypes: true,
+	    defaultProps: true,
+	    displayName: true,
+	    getDefaultProps: true,
+	    mixins: true,
+	    propTypes: true,
+	    type: true
+	};
+
+	var KNOWN_STATICS = {
+	    name: true,
+	    length: true,
+	    prototype: true,
+	    caller: true,
+	    arguments: true,
+	    arity: true
+	};
+
+	module.exports = function hoistNonReactStatics(targetComponent, sourceComponent) {
+	    var keys = Object.getOwnPropertyNames(sourceComponent);
+	    for (var i=0; i<keys.length; ++i) {
+	        if (!REACT_STATICS[keys[i]] && !KNOWN_STATICS[keys[i]]) {
+	            try {
+	                targetComponent[keys[i]] = sourceComponent[keys[i]];
+	            } catch (error) {
+
+	            }
+	        }
+	    }
+
+	    return targetComponent;
+	};
+
+
+/***/ },
+/* 179 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {/**
+	 * Copyright 2013-2015, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 */
+
+	'use strict';
+
+	/**
+	 * Use invariant() to assert state which your program assumes to be true.
+	 *
+	 * Provide sprintf-style format (only %s is supported) and arguments
+	 * to provide information about what broke and what you were
+	 * expecting.
+	 *
+	 * The invariant message will be stripped in production, but the invariant
+	 * will remain to ensure logic does not differ in production.
+	 */
+
+	var invariant = function(condition, format, a, b, c, d, e, f) {
+	  if (process.env.NODE_ENV !== 'production') {
+	    if (format === undefined) {
+	      throw new Error('invariant requires an error message argument');
+	    }
+	  }
+
+	  if (!condition) {
+	    var error;
+	    if (format === undefined) {
+	      error = new Error(
+	        'Minified exception occurred; use the non-minified dev environment ' +
+	        'for the full error message and additional helpful warnings.'
+	      );
+	    } else {
+	      var args = [a, b, c, d, e, f];
+	      var argIndex = 0;
+	      error = new Error(
+	        format.replace(/%s/g, function() { return args[argIndex++]; })
+	      );
+	      error.name = 'Invariant Violation';
+	    }
+
+	    error.framesToPop = 1; // we don't care about invariant's own frame
+	    throw error;
+	  }
+	};
+
+	module.exports = invariant;
+
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+
+/***/ },
+/* 180 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _redux = __webpack_require__(165);
+
+	var _todos = __webpack_require__(181);
+
+	var _todos2 = _interopRequireDefault(_todos);
+
+	var _visibilityFilter = __webpack_require__(182);
+
+	var _visibilityFilter2 = _interopRequireDefault(_visibilityFilter);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	/**
+	 * uses the combineReducers from the redux package to create an object with the
+	 * two (todos, visibilityFilter) known reducers
+	 * @type {Object}
+	 */
+	var todosApp = (0, _redux.combineReducers)({ todos: _todos2.default, visibilityFilter: _visibilityFilter2.default }); /**
+	                                                                                                                       * @module reducers/todosApp
+	                                                                                                                       */
+
+	exports.default = todosApp;
+
+/***/ },
+/* 181 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+	/**
+	 * @module reducers/todos
+	 */
+
+	var isNotEmpty = function isNotEmpty(text) {
+	  return text.replace(/\s/g, '').length > 0;
+	};
+
+	var todo = function todo(state, action) {
+	  switch (action.type) {
+	    case 'ADD_TODO':
+	      return {
+	        id: action.id,
+	        text: action.text,
+	        completed: action.completed
+	      };
+	    case 'TOGGLE_TODO':
+	      if (state.id !== action.id) {
+	        return state;
+	      }
+	      return Object.assign({}, state, { completed: !state.completed });
+	    default:
+	      return state;
+	  }
+	};
+
+	/**
+	 * the todos reducer is responsible for managing the collection of todos and
+	 * delegates actions which concern single todos to the todo reducer
+	 * @param  {Array}  state by default is set to empty array and contains the collection of todos
+	 * @param  {Object} action contains either the id or the text of the todo to be added
+	 * @return {Array}  the collection of todos
+	 */
+	var todos = function todos() {
+	  var state = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
+	  var action = arguments[1];
+
+	  switch (action.type) {
+	    case 'ADD_TODO':
+	      return isNotEmpty(action.text) ? [].concat(_toConsumableArray(state), [todo(undefined, action)]) : state;
+	    case 'REMOVE_TODO':
+	      return state.filter(function (t) {
+	        return t.id !== action.id;
+	      });
+	    case 'TOGGLE_TODO':
+	      return state.map(function (t) {
+	        return todo(t, action);
+	      });
+	    default:
+	      return state;
+	  }
+	};
+
+	exports.default = todos;
+
+/***/ },
+/* 182 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	/**
+	 * @module reducers/visibilityFilter
+	 */
+
+	/**
+	 * @param  {String} state  by default is equal to 'SHOW_ALL'
+	 * @param  {Object} action the object containing the filter to be set
+	 * @return {String} the filter set
+	 */
+	var visibilityFilter = function visibilityFilter() {
+	  var state = arguments.length <= 0 || arguments[0] === undefined ? 'SHOW_ALL' : arguments[0];
+	  var action = arguments[1];
+
+	  switch (action.type) {
+	    case 'SET_VISIBILITY_FILTER':
+	      return state = action.filter;
+	    default:
+	      return state;
+	  }
+	};
+
+	exports.default = visibilityFilter;
+
+/***/ },
+/* 183 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(147);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _Footer = __webpack_require__(184);
+
+	var _Footer2 = _interopRequireDefault(_Footer);
+
+	var _AddTodo = __webpack_require__(188);
+
+	var _AddTodo2 = _interopRequireDefault(_AddTodo);
+
+	var _VisibleTodosList = __webpack_require__(189);
+
+	var _VisibleTodosList2 = _interopRequireDefault(_VisibleTodosList);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	/**
+	 * Presentation component for the TodoApp
+	 * @see {@link module:containers/AddTodo},
+	 * {@link module:containers/VisibleTodosList} and
+	 * {@link module:components/Footer}
+	 * @return {Object} the TodoApp presentation component.
+	 */
+	/**
+	 * @module components/TodoApp
+	 */
+
+	var TodoApp = function TodoApp() {
+	  return _react2.default.createElement(
+	    'div',
+	    null,
+	    _react2.default.createElement(_AddTodo2.default, null),
+	    _react2.default.createElement(_VisibleTodosList2.default, null),
+	    _react2.default.createElement(_Footer2.default, null)
+	  );
+	};
+
+	exports.default = TodoApp;
+
+/***/ },
+/* 184 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(147);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _FilterLink = __webpack_require__(185);
+
+	var _FilterLink2 = _interopRequireDefault(_FilterLink);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	/**
+	 * Presentation component for a Footer containing three
+	 * {@link module:containers/FilterLink}
+	 * @return {Object} the Footer presentation component.
+	 */
+	/**
+	 * @module components/Footer
+	 */
+
+	var Footer = function Footer() {
+	  return _react2.default.createElement(
+	    'p',
+	    null,
+	    'Show:',
+	    _react2.default.createElement(
+	      _FilterLink2.default,
+	      { filter: 'SHOW_ALL' },
+	      'All'
+	    ),
+	    ',',
+	    _react2.default.createElement(
+	      _FilterLink2.default,
+	      { filter: 'SHOW_COMPLETED' },
+	      'Completed'
+	    ),
+	    ',',
+	    _react2.default.createElement(
+	      _FilterLink2.default,
+	      { filter: 'SHOW_INCOMPLETED' },
+	      'Incompleted'
+	    )
+	  );
+	};
+
+	exports.default = Footer;
+
+/***/ },
+/* 185 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _reactRedux = __webpack_require__(159);
+
+	var _Link = __webpack_require__(186);
+
+	var _Link2 = _interopRequireDefault(_Link);
+
+	var _index = __webpack_require__(187);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var mapVisibilityStateToProps = function mapVisibilityStateToProps(state, props) {
+	  return {
+	    active: props.filter === state.visibilityFilter
+	  };
+	}; /**
+	    * @module containers/FilterLink
+	    */
+
+	var mapVisibilityDispatchToProps = function mapVisibilityDispatchToProps(dispatch, props) {
+	  return {
+	    onClick: function onClick() {
+	      dispatch((0, _index.setVisibilityFilter)(props.filter));
+	    }
+	  };
+	};
+
+	/**
+	 * Generates a container component called FilterLink using the presentation
+	 * component {@link module:components/Link}
+	 * @param  {Object} mapVisibilityStateToProps a map between the Container own
+	 * state to the presentation props.
+	 * @param  {Object} mapVisibilityDispatchToProps a map between the store
+	 * dispatch state to the presentation props.
+	 * @return {Object} the FilterLink container component
+	 */
+	var FilterLink = (0, _reactRedux.connect)(mapVisibilityStateToProps, mapVisibilityDispatchToProps)(_Link2.default);
+
+	exports.default = FilterLink;
+
+/***/ },
+/* 186 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(147);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	/**
+	 * Presentation component for a Link
+	 * @param  {Object} Properties contains the children (component "innerHTML"
+	 * sort of), Boolean for active and a onClick handler.
+	 * @return {Object} the presentation Link component.
+	 */
+	var Link = function Link(_ref) {
+	  var children = _ref.children;
+	  var active = _ref.active;
+	  var _onClick = _ref.onClick;
+
+	  if (active) {
+	    return _react2.default.createElement(
+	      "span",
+	      null,
+	      children
+	    );
+	  }
+	  return _react2.default.createElement(
+	    "a",
+	    { href: "#", onClick: function onClick(e) {
+	        e.preventDefault();
+	        _onClick();
+	      } },
+	    children
+	  );
+	}; /**
+	    * @module components/Link
+	    */
+
+	exports.default = Link;
+
+/***/ },
+/* 187 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	/**
+	 * @module actions
+	 */
+
+	var setVisibilityFilter = function setVisibilityFilter(filter) {
+	  return {
+	    type: 'SET_VISIBILITY_FILTER', filter: filter
+	  };
+	};
+
+	var toggleTodo = function toggleTodo(id) {
+	  return {
+	    type: 'TOGGLE_TODO', id: id
+	  };
+	};
+
+	var nextTodoId = 0; // works as a lame sequential Id
+	var addTodo = function addTodo(text) {
+	  return {
+	    type: 'ADD_TODO', text: text, id: nextTodoId++
+	  };
+	};
+
+	exports.
+	/**
+	 * @function
+	 * @param  {String} filter  the filter to be set
+	 * @return {Object} a SET_VISIBILITY_FILTER action
+	 */
+	setVisibilityFilter = setVisibilityFilter;
+	exports.
+
+	/**
+	 * @function
+	 * @param  {Number} id  the id of the Todo to be toggled
+	 * @return {Object} a TOGGLE_TODO action
+	 */
+	toggleTodo = toggleTodo;
+	exports.
+
+	/**
+	 * @function
+	 * @param  {String} text  the text of the new Todo
+	 * @return {Object} a ADD_TODO action
+	 */
+	addTodo = addTodo;
+
+/***/ },
+/* 188 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(147);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRedux = __webpack_require__(159);
+
+	var _index = __webpack_require__(187);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var ENTER_KEY_CODE = 13; /**
+	                          * @module containers/AddTodo
+	                          */
+
+	var AddTodo = function AddTodo(_ref) {
+	  var dispatch = _ref.dispatch;
+
+	  var input = void 0;
+	  return _react2.default.createElement(
+	    'div',
+	    null,
+	    _react2.default.createElement('input', {
+	      ref: function ref(node) {
+	        input = node;
+	      },
+	      onKeyUp: function onKeyUp(e) {
+	        if (e.keyCode === ENTER_KEY_CODE) {
+	          dispatch((0, _index.addTodo)(input.value));
+	          input.value = '';
+	        }
+	      }
+	    }),
+	    _react2.default.createElement(
+	      'button',
+	      {
+	        onClick: function onClick() {
+	          dispatch((0, _index.addTodo)(input.value));
+	          input.value = '';
+	        }
+	      },
+	      'Add'
+	    )
+	  );
+	};
+
+	/**
+	 * Generates a container component called AddTodo using the presentation
+	 * component. The connect method when called without parameters will, by
+	 * default, just forward the dispatch method from the store to the presentation
+	 * component.
+	 * @return {Object} the AddTodo container component
+	 */
+	AddTodo = (0, _reactRedux.connect)()(AddTodo);
+
+	exports.default = AddTodo;
+
+/***/ },
+/* 189 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _reactRedux = __webpack_require__(159);
+
+	var _TodosList = __webpack_require__(190);
+
+	var _TodosList2 = _interopRequireDefault(_TodosList);
+
+	var _index = __webpack_require__(187);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var getVisibleTodos = function getVisibleTodos(todos, filter) {
+	  switch (filter) {
+	    case 'SHOW_ALL':
+	      return todos;
+	    case 'SHOW_COMPLETED':
+	      return todos.filter(function (t) {
+	        return t.completed;
+	      });
+	    case 'SHOW_INCOMPLETED':
+	      return todos.filter(function (t) {
+	        return !t.completed;
+	      });
+	    default:
+	      return todos;
+	  }
+	}; /**
+	    * @module containers/VisibleTodosList
+	    */
+
+	var mapTodosStateToProps = function mapTodosStateToProps(state) {
+	  return {
+	    todos: getVisibleTodos(state.todos, state.visibilityFilter)
+	  };
+	};
+	var mapTodosDispatchToProps = function mapTodosDispatchToProps(dispatch) {
+	  return {
+	    onTodoClick: function onTodoClick(id) {
+	      dispatch((0, _index.toggleTodo)(id));
+	    }
+	  };
+	};
+
+	/**
+	 * Generates a container component called VisibleTodosList using the presentation
+	 * component {@link module:components/TodosList}
+	 * @param  {Object} mapTodosStateToProps a map between the Container own
+	 * state to the presentation props.
+	 * @param  {Object} mapTodosDispatchToProps a map between the store
+	 * dispatch state to the presentation props.
+	 * @return {Object} the VisibleTodosList container component
+	 */
+	var VisibleTodosList = (0, _reactRedux.connect)(mapTodosStateToProps, mapTodosDispatchToProps)(_TodosList2.default);
+
+	exports.default = VisibleTodosList;
+
+/***/ },
+/* 190 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(147);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _Todo = __webpack_require__(191);
+
+	var _Todo2 = _interopRequireDefault(_Todo);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	/**
+	 * Presentation component for a TodosList
+	 * @param  {Object} Properties contains the collection of todos and the onClick
+	 * handler.
+	 * @see {@link module:components/Todo}
+	 * @return {Object} the TodosList presentation component.
+	 */
+	/**
+	 * @module components/TodosList
+	 */
+
+	var TodosList = function TodosList(_ref) {
+	  var todos = _ref.todos;
+	  var onTodoClick = _ref.onTodoClick;
+	  return _react2.default.createElement(
+	    'ul',
+	    null,
+	    todos.map(function (todo) {
+	      return _react2.default.createElement(_Todo2.default, {
+	        key: todo.id,
+	        text: todo.text,
+	        completed: todo.completed,
+	        onClick: function onClick() {
+	          onTodoClick(todo.id);
+	        } });
+	    })
+	  );
+	};
+
+	exports.default = TodosList;
+
+/***/ },
+/* 191 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(147);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	/**
+	 * Presentation component for a Todo
+	 * @param  {Object} Properties contains the text of the todo, the boolean
+	 * for completed and the onClick handler.
+	 * @return {Object} the presentation component.
+	 */
+	var Todo = function Todo(_ref) {
+	  var text = _ref.text;
+	  var completed = _ref.completed;
+	  var onClick = _ref.onClick;
+	  return _react2.default.createElement(
+	    'li',
+	    { onClick: onClick, style: { textDecoration: completed ? 'line-through' : '' } },
+	    text
+	  );
+	}; /**
+	    * @module components/Todo
+	    */
+
+	exports.default = Todo;
 
 /***/ }
 /******/ ]);
