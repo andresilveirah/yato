@@ -10,15 +10,20 @@ import React from 'react';
  * sort of), Boolean for active and a onClick handler.
  * @return {Object} the presentation Link component.
  */
-const Link = ({children, active, onClick}) => {
+const Link = ({ children, active, onClick }) => {
   if (active) {
     return <span>{children}</span>;
   }
   return (
-    <a href="#" onClick={e => {
-      e.preventDefault();
-      onClick();
-    }}>{children}</a>
+    <a
+      href="#"
+      onClick={(e) => {
+        e.preventDefault();
+        onClick();
+      }}
+    >
+      {children}
+    </a>
   );
 };
 
