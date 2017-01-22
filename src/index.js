@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
 
-import AppContainer from './containers/AppContainer';
+import TodoApp from './components/TodoApp';
 
-ReactDOM.render(<AppContainer />, document.getElementById('app'));
+ReactDOM.render(<TodoApp />, document.getElementById('app'));

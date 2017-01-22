@@ -5,7 +5,6 @@
 import React from 'react';
 
 const ENTER_KEY_CODE = 13;
-let AUTO_TODO_ID = 0;
 
 let AddTodo = (props) => {
   let input;

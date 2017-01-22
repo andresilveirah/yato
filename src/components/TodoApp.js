@@ -5,9 +5,9 @@
 import React from 'react';
 
 import Footer from './Footer';
-import AddTodo from '../containers/AddTodo';
+import AddTodo from './AddTodo';
 import VisibleTodosList from '../containers/VisibleTodosList';
-import TodosList from './TodosList';
+import Actions from '../actions/TodoActions';
 
 /**
  * Presentation component for the TodoApp
@@ -18,7 +18,7 @@ import TodosList from './TodosList';
  */
 const TodoApp = (props) => (
   <div>
-    <AddTodo onAddTodo={ props.onAddTodo } />
+    <AddTodo onAddTodo={ Actions.addTodo } />
     <VisibleTodosList />
     <Footer />
   </div>
