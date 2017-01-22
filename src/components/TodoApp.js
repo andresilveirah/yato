@@ -4,9 +4,9 @@
 
 import React from 'react';
 
-import Footer from './Footer';
+// import Footer from './Footer';
 import AddTodo from '../containers/AddTodo';
-import VisibleTodosList from '../containers/VisibleTodosList';
+import TodosList from './TodosList';
 
 /**
  * Presentation component for the TodoApp
@@ -15,11 +15,10 @@ import VisibleTodosList from '../containers/VisibleTodosList';
  * {@link module:components/Footer}
  * @return {Object} the TodoApp presentation component.
  */
-const TodoApp = () => (
+const TodoApp = (props) => (
   <div>
-    <AddTodo />
-    <VisibleTodosList />
-    <Footer />
+    <AddTodo onAddTodo={ props.onAddTodo } />
+    <TodosList todos={ props.todos } onTodoClick={ props.onToggleTodo } />
   </div>
 );
 
