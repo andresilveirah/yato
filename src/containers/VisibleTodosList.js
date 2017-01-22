@@ -2,10 +2,11 @@
  * @module containers/VisibleTodosList
  */
 
-import { connect } from 'react-redux';
-
+import { Container } from 'flux/utils';
+import TodosStore from '../stores/TodosStore';
+import VisibilityStore from '../stores/VisibilityStore';
+import Actions from  '../actions/TodoActions';
 import TodosList from '../components/TodosList';
-import { toggleTodo } from '../actions/index';
 
 const getVisibleTodos = (todos, filter) => {
   switch (filter) {
@@ -20,25 +21,11 @@ const getVisibleTodos = (todos, filter) => {
   }
 };
 
-const mapTodosStateToProps = (state) => ({
-  todos: getVisibleTodos(state.todos, state.visibilityFilter)
-});
-const mapTodosDispatchToProps = (dispatch) => ({
-  onTodoClick: (id) => { dispatch(toggleTodo(id)); }
+const getStores = () => [ TodosStore, VisibilityStore ];
+
+const getState = (_) => ({
+  todos: getVisibleTodos(TodosStore.getState(), VisibilityStore.getState()),
+  onTodoClick: (id) => { Actions.toggleTodo(id); }
 });
 
-/**
- * Generates a container component called VisibleTodosList using the presentation
- * component {@link module:components/TodosList}
- * @param  {Object} mapTodosStateToProps a map between the Container own
- * state to the presentation props.
- * @param  {Object} mapTodosDispatchToProps a map between the store
- * dispatch state to the presentation props.
- * @return {Object} the VisibleTodosList container component
- */
-const VisibleTodosList = connect(
-  mapTodosStateToProps,
-  mapTodosDispatchToProps
-)(TodosList);
-
-export default VisibleTodosList;
+export default Container.createFunctional(TodosList, getStores, getState);

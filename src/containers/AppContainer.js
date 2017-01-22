@@ -8,8 +8,7 @@ const getStores = () => [ TodosStore ];
 const getState = (_) => ({
   todos: TodosStore.getState(),
 
-  onAddTodo: Actions.addTodo,
-  onToggleTodo: Actions.toggleTodo
+  onAddTodo: Actions.addTodo
 });
 
 export default Container.createFunctional(TodoApp, getStores, getState);

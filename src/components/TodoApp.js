@@ -6,6 +6,7 @@ import React from 'react';
 
 import Footer from './Footer';
 import AddTodo from '../containers/AddTodo';
+import VisibleTodosList from '../containers/VisibleTodosList';
 import TodosList from './TodosList';
 
 /**
@@ -18,7 +19,7 @@ import TodosList from './TodosList';
 const TodoApp = (props) => (
   <div>
     <AddTodo onAddTodo={ props.onAddTodo } />
-    <TodosList todos={ props.todos } onTodoClick={ props.onToggleTodo } />
+    <VisibleTodosList />
     <Footer />
   </div>
 );

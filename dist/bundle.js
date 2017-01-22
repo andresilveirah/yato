@@ -21537,8 +21537,7 @@
 	  return {
 	    todos: _TodosStore2.default.getState(),
 
-	    onAddTodo: _TodoActions2.default.addTodo,
-	    onToggleTodo: _TodoActions2.default.toggleTodo
+	    onAddTodo: _TodoActions2.default.addTodo
 	  };
 	};
 
@@ -23307,7 +23306,11 @@
 
 	var _AddTodo2 = _interopRequireDefault(_AddTodo);
 
-	var _TodosList = __webpack_require__(206);
+	var _VisibleTodosList = __webpack_require__(206);
+
+	var _VisibleTodosList2 = _interopRequireDefault(_VisibleTodosList);
+
+	var _TodosList = __webpack_require__(207);
 
 	var _TodosList2 = _interopRequireDefault(_TodosList);
 
@@ -23320,19 +23323,17 @@
 	 * {@link module:components/Footer}
 	 * @return {Object} the TodoApp presentation component.
 	 */
-	/**
-	 * @module components/TodoApp
-	 */
-
 	var TodoApp = function TodoApp(props) {
 	  return _react2.default.createElement(
 	    'div',
 	    null,
 	    _react2.default.createElement(_AddTodo2.default, { onAddTodo: props.onAddTodo }),
-	    _react2.default.createElement(_TodosList2.default, { todos: props.todos, onTodoClick: props.onToggleTodo }),
+	    _react2.default.createElement(_VisibleTodosList2.default, null),
 	    _react2.default.createElement(_Footer2.default, null)
 	  );
-	};
+	}; /**
+	    * @module components/TodoApp
+	    */
 
 	exports.default = TodoApp;
 
@@ -23647,11 +23648,75 @@
 	  value: true
 	});
 
+	var _utils = __webpack_require__(180);
+
+	var _TodosStore = __webpack_require__(193);
+
+	var _TodosStore2 = _interopRequireDefault(_TodosStore);
+
+	var _VisibilityStore = __webpack_require__(204);
+
+	var _VisibilityStore2 = _interopRequireDefault(_VisibilityStore);
+
+	var _TodoActions = __webpack_require__(199);
+
+	var _TodoActions2 = _interopRequireDefault(_TodoActions);
+
+	var _TodosList = __webpack_require__(207);
+
+	var _TodosList2 = _interopRequireDefault(_TodosList);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var getVisibleTodos = function getVisibleTodos(todos, filter) {
+	  switch (filter) {
+	    case 'SHOW_ALL':
+	      return todos;
+	    case 'SHOW_COMPLETED':
+	      return todos.filter(function (t) {
+	        return t.completed;
+	      });
+	    case 'SHOW_INCOMPLETED':
+	      return todos.filter(function (t) {
+	        return !t.completed;
+	      });
+	    default:
+	      return todos;
+	  }
+	}; /**
+	    * @module containers/VisibleTodosList
+	    */
+
+	var getStores = function getStores() {
+	  return [_TodosStore2.default, _VisibilityStore2.default];
+	};
+
+	var getState = function getState(_) {
+	  return {
+	    todos: getVisibleTodos(_TodosStore2.default.getState(), _VisibilityStore2.default.getState()),
+	    onTodoClick: function onTodoClick(id) {
+	      _TodoActions2.default.toggleTodo(id);
+	    }
+	  };
+	};
+
+	exports.default = _utils.Container.createFunctional(_TodosList2.default, getStores, getState);
+
+/***/ },
+/* 207 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
 	var _react = __webpack_require__(178);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Todo = __webpack_require__(207);
+	var _Todo = __webpack_require__(208);
 
 	var _Todo2 = _interopRequireDefault(_Todo);
 
@@ -23689,7 +23754,7 @@
 	exports.default = TodosList;
 
 /***/ },
-/* 207 */
+/* 208 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
