@@ -16,6 +16,13 @@ const Actions = {
       type: ActionType.TOGGLE_TODO,
       id: id
     });
+  },
+
+  setVisibilityFilter(filter) {
+    TodoDispatcher.dispatch({
+      type: ActionType.SET_VISIBILITY_FILTER,
+      filter: filter
+    });
   }
 };
 

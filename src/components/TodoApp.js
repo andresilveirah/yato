@@ -4,7 +4,7 @@
 
 import React from 'react';
 
-// import Footer from './Footer';
+import Footer from './Footer';
 import AddTodo from '../containers/AddTodo';
 import TodosList from './TodosList';
 
@@ -19,6 +19,7 @@ const TodoApp = (props) => (
   <div>
     <AddTodo onAddTodo={ props.onAddTodo } />
     <TodosList todos={ props.todos } onTodoClick={ props.onToggleTodo } />
+    <Footer />
   </div>
 );
 

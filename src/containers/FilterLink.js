@@ -2,31 +2,28 @@
  * @module containers/FilterLink
  */
 
-import { connect } from 'react-redux';
+import { Container } from 'flux/utils';
+import React from 'react';
 
 import Link from '../components/Link';
-import { setVisibilityFilter } from '../actions/index';
+import Actions from '../actions/TodoActions';
+import VisibilityStore from '../stores/VisibilityStore';
 
-const mapVisibilityStateToProps = (state, props) => ({
-    active: props.filter === state.visibilityFilter
-});
+class FilterLink extends React.Component {
+  static getStores() {
+    return [VisibilityStore];
+  }
 
-const mapVisibilityDispatchToProps = (dispatch, props) => ({
-    onClick: () => { dispatch(setVisibilityFilter(props.filter)); }
-});
+  static calculateState(_, props) {
+    return {
+      active: props.filter === VisibilityStore.getState(),
+      onClick: () => { Actions.setVisibilityFilter(props.filter); }
+    };
+  }
 
-/**
- * Generates a container component called FilterLink using the presentation
- * component {@link module:components/Link}
- * @param  {Object} mapVisibilityStateToProps a map between the Container own
- * state to the presentation props.
- * @param  {Object} mapVisibilityDispatchToProps a map between the store
- * dispatch state to the presentation props.
- * @return {Object} the FilterLink container component
- */
-const FilterLink = connect(
-  mapVisibilityStateToProps,
-  mapVisibilityDispatchToProps
-)(Link);
+  render() {
+    return <Link {...this.state}>{this.props.children}</Link>;
+  }
+}
 
-export default FilterLink;
+export default Container.create(FilterLink, {withProps: true});

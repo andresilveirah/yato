@@ -23274,6 +23274,12 @@
 	      type: _TodoActionTypes2.default.TOGGLE_TODO,
 	      id: id
 	    });
+	  },
+	  setVisibilityFilter: function setVisibilityFilter(filter) {
+	    _TodoDispatcher2.default.dispatch({
+	      type: _TodoActionTypes2.default.SET_VISIBILITY_FILTER,
+	      filter: filter
+	    });
 	  }
 	};
 
@@ -23293,11 +23299,15 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _AddTodo = __webpack_require__(201);
+	var _Footer = __webpack_require__(201);
+
+	var _Footer2 = _interopRequireDefault(_Footer);
+
+	var _AddTodo = __webpack_require__(205);
 
 	var _AddTodo2 = _interopRequireDefault(_AddTodo);
 
-	var _TodosList = __webpack_require__(202);
+	var _TodosList = __webpack_require__(206);
 
 	var _TodosList2 = _interopRequireDefault(_TodosList);
 
@@ -23310,24 +23320,272 @@
 	 * {@link module:components/Footer}
 	 * @return {Object} the TodoApp presentation component.
 	 */
+	/**
+	 * @module components/TodoApp
+	 */
 
-
-	// import Footer from './Footer';
 	var TodoApp = function TodoApp(props) {
 	  return _react2.default.createElement(
 	    'div',
 	    null,
 	    _react2.default.createElement(_AddTodo2.default, { onAddTodo: props.onAddTodo }),
-	    _react2.default.createElement(_TodosList2.default, { todos: props.todos, onTodoClick: props.onToggleTodo })
+	    _react2.default.createElement(_TodosList2.default, { todos: props.todos, onTodoClick: props.onToggleTodo }),
+	    _react2.default.createElement(_Footer2.default, null)
 	  );
-	}; /**
-	    * @module components/TodoApp
-	    */
+	};
 
 	exports.default = TodoApp;
 
 /***/ },
 /* 201 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(178);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _FilterLink = __webpack_require__(202);
+
+	var _FilterLink2 = _interopRequireDefault(_FilterLink);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	/**
+	 * Presentation component for a Footer containing three
+	 * {@link module:containers/FilterLink}
+	 * @return {Object} the Footer presentation component.
+	 */
+	/**
+	 * @module components/Footer
+	 */
+
+	var Footer = function Footer() {
+	  return _react2.default.createElement(
+	    'p',
+	    null,
+	    'Show:',
+	    _react2.default.createElement(
+	      _FilterLink2.default,
+	      { filter: 'SHOW_ALL' },
+	      'All'
+	    ),
+	    ',',
+	    _react2.default.createElement(
+	      _FilterLink2.default,
+	      { filter: 'SHOW_COMPLETED' },
+	      'Completed'
+	    ),
+	    ',',
+	    _react2.default.createElement(
+	      _FilterLink2.default,
+	      { filter: 'SHOW_INCOMPLETED' },
+	      'Incompleted'
+	    )
+	  );
+	};
+
+	exports.default = Footer;
+
+/***/ },
+/* 202 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _utils = __webpack_require__(180);
+
+	var _react = __webpack_require__(178);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _Link = __webpack_require__(203);
+
+	var _Link2 = _interopRequireDefault(_Link);
+
+	var _TodoActions = __webpack_require__(199);
+
+	var _TodoActions2 = _interopRequireDefault(_TodoActions);
+
+	var _VisibilityStore = __webpack_require__(204);
+
+	var _VisibilityStore2 = _interopRequireDefault(_VisibilityStore);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @module containers/FilterLink
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+
+	var FilterLink = function (_React$Component) {
+	  _inherits(FilterLink, _React$Component);
+
+	  function FilterLink() {
+	    _classCallCheck(this, FilterLink);
+
+	    return _possibleConstructorReturn(this, (FilterLink.__proto__ || Object.getPrototypeOf(FilterLink)).apply(this, arguments));
+	  }
+
+	  _createClass(FilterLink, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        _Link2.default,
+	        this.state,
+	        this.props.children
+	      );
+	    }
+	  }], [{
+	    key: 'getStores',
+	    value: function getStores() {
+	      return [_VisibilityStore2.default];
+	    }
+	  }, {
+	    key: 'calculateState',
+	    value: function calculateState(_, props) {
+	      return {
+	        active: props.filter === _VisibilityStore2.default.getState(),
+	        onClick: function onClick() {
+	          _TodoActions2.default.setVisibilityFilter(props.filter);
+	        }
+	      };
+	    }
+	  }]);
+
+	  return FilterLink;
+	}(_react2.default.Component);
+
+	exports.default = _utils.Container.create(FilterLink, { withProps: true });
+
+/***/ },
+/* 203 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(178);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	/**
+	 * Presentation component for a Link
+	 * @param  {Object} Properties contains the children (component "innerHTML"
+	 * sort of), Boolean for active and a onClick handler.
+	 * @return {Object} the presentation Link component.
+	 */
+	var Link = function Link(_ref) {
+	  var children = _ref.children,
+	      active = _ref.active,
+	      _onClick = _ref.onClick;
+
+	  if (active) {
+	    return _react2.default.createElement(
+	      "span",
+	      null,
+	      children
+	    );
+	  }
+	  return _react2.default.createElement(
+	    "a",
+	    { href: "#", onClick: function onClick(e) {
+	        e.preventDefault();
+	        _onClick();
+	      } },
+	    children
+	  );
+	}; /**
+	    * @module components/Link
+	    */
+
+	exports.default = Link;
+
+/***/ },
+/* 204 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _utils = __webpack_require__(180);
+
+	var _TodoDispatcher = __webpack_require__(194);
+
+	var _TodoDispatcher2 = _interopRequireDefault(_TodoDispatcher);
+
+	var _TodoActionTypes = __webpack_require__(198);
+
+	var _TodoActionTypes2 = _interopRequireDefault(_TodoActionTypes);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var VisibilityStore = function (_ReduceStore) {
+	  _inherits(VisibilityStore, _ReduceStore);
+
+	  function VisibilityStore() {
+	    _classCallCheck(this, VisibilityStore);
+
+	    return _possibleConstructorReturn(this, (VisibilityStore.__proto__ || Object.getPrototypeOf(VisibilityStore)).call(this, _TodoDispatcher2.default));
+	  }
+
+	  _createClass(VisibilityStore, [{
+	    key: 'getInitialState',
+	    value: function getInitialState() {
+	      return 'SHOW_ALL';
+	    }
+	  }, {
+	    key: 'reduce',
+	    value: function reduce() {
+	      var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'SHOW_ALL';
+	      var action = arguments[1];
+
+	      switch (action.type) {
+	        case _TodoActionTypes2.default.SET_VISIBILITY_FILTER:
+	          return state = action.filter;
+	        default:
+	          return state;
+	      }
+	    }
+	  }]);
+
+	  return VisibilityStore;
+	}(_utils.ReduceStore);
+
+	exports.default = new VisibilityStore();
+
+/***/ },
+/* 205 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -23380,7 +23638,7 @@
 	exports.default = AddTodo;
 
 /***/ },
-/* 202 */
+/* 206 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -23393,7 +23651,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Todo = __webpack_require__(203);
+	var _Todo = __webpack_require__(207);
 
 	var _Todo2 = _interopRequireDefault(_Todo);
 
@@ -23431,7 +23689,7 @@
 	exports.default = TodosList;
 
 /***/ },
-/* 203 */
+/* 207 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
