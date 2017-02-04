@@ -8,7 +8,7 @@
     "build": "webpack",
     "watch": "webpack-dev-server --content-base dist",
     "docs": "rm -rf docs; jsdoc -c ./jsdoc.conf",
-    "deploy": "gh-pages -d dist"
+    "deploy": "webpack -p; gh-pages -d dist"
   },
   "repository": {
     "type": "git",
