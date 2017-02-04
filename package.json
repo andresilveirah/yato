@@ -38,8 +38,8 @@
     "gh-pages": "^0.11.0",
     "jest": "^18.1.0",
     "jsdoc": "^3.4.3",
-    "webpack": "^1.14.0",
-    "webpack-dev-server": "^1.16.2"
+    "webpack": "^2.2.1",
+    "webpack-dev-server": "^2.3.0"
   },
   "dependencies": {
     "babel-eslint": "^7.1.1",
@@ -49,12 +49,7 @@
     "react-dom": "^15.4.2"
   },
   "jest": {
-    "moduleFileExtensions": [
-      "js",
-      "jsx"
-    ],
-    "moduleDirectories": [
-      "node_modules"
-    ]
+    "moduleFileExtensions": [ "js", "jsx" ],
+    "moduleDirectories": [ "node_modules" ]
   }
 }
