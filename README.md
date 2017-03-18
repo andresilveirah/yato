@@ -1,4 +1,4 @@
-# Yato
+# Yato [![Build Status](https://semaphoreci.com/api/v1/andresilveirah/yato/branches/master/shields_badge.svg)](https://semaphoreci.com/andresilveirah/yato)
 Yet another TODO app
 
 ## Install
