@@ -8,21 +8,23 @@ describe('action', () => {
   });
 
   it('toggleTodo should create a TOGGLE_TODO action', () => {
-    expect(actions.toggleTodo(1)).toEqual({
+    expect(actions.toggleTodo(1)).toMatchObject({
       type: 'TOGGLE_TODO', id: 1
     });
   });
 
   describe('addTodo should', () => {
     it('create a ADD_TODO action', () => {
-      expect(actions.addTodo('text')).toEqual({
-        type: 'ADD_TODO', text: 'text', id: 0
+      expect(actions.addTodo('text')).toMatchObject({
+        type: 'ADD_TODO', text: 'text'
       });
     });
 
-    it('and should provide a sequential id', () => {
-      expect(actions.addTodo('text').id).toEqual(1);
-      expect(actions.addTodo('text').id).toEqual(2);
+    it('and should provide a unique id', () => {
+      const firstId = actions.addTodo('text').id;
+      const secondId = actions.addTodo('text').id;
+
+      expect(firstId).not.toEqual(secondId);
     });
   });
 });
