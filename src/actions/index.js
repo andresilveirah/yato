@@ -2,6 +2,9 @@
  * @module actions
  */
 
+// v4 is a function tha returns a unique string everytime it's called
+import { v4 } from 'node-uuid';
+
 const setVisibilityFilter = (filter) => ({
   type: 'SET_VISIBILITY_FILTER', filter
 });
@@ -10,9 +13,8 @@ const toggleTodo = (id) => ({
   type: 'TOGGLE_TODO', id
 });
 
-let nextTodoId = 0; // works as a lame sequential Id
 const addTodo = (text) => ({
-  type: 'ADD_TODO', text, id: nextTodoId++
+  type: 'ADD_TODO', text, id: v4()
 });
 
 export {
