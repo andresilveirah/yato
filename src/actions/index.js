@@ -3,7 +3,7 @@
  */
 
 // v4 is a function tha returns a unique string everytime it's called
-import { v4 } from 'node-uuid';
+import { uuid } from '../services/uuid';
 
 const setVisibilityFilter = (filter) => ({
   type: 'SET_VISIBILITY_FILTER', filter
@@ -14,7 +14,7 @@ const toggleTodo = (id) => ({
 });
 
 const addTodo = (text) => ({
-  type: 'ADD_TODO', text, id: v4()
+  type: 'ADD_TODO', text, id: uuid()
 });
 
 export {
