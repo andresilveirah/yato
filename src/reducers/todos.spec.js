@@ -20,7 +20,7 @@ describe('todos reducer', () => {
 
   describe('when receiving an action of ADD_TODO', () => {
     it('should add the new todo to the state', () => {
-      const action = { type: 'ADD_TODO', text: 'Hello world', id: 1, completed: false };
+      const action = { type: 'ADD_TODO', text: 'Hello world', id: 1 };
       const state = todos([], action);
 
       expect(state).toEqual([{ text: 'Hello world', id: 1, completed: false }]);
@@ -28,11 +28,11 @@ describe('todos reducer', () => {
 
     describe('and the todo\'s text is empty', () => {
       it('should not add the new todo to the state', () => {
-        let action = { type: 'ADD_TODO', text: '', id: 1, completed: false };
+        let action = { type: 'ADD_TODO', text: '', id: 1 };
         let state = todos([], action);
         expect(state).toEqual([]);
 
-        action = { type: 'ADD_TODO', text: '     ', id: 1, completed: false };
+        action = { type: 'ADD_TODO', text: '     ', id: 1 };
         state = todos([], action);
         expect(state).toEqual([]);
       });
@@ -58,7 +58,7 @@ describe('todos reducer', () => {
 
   it('should not mutate the state object', () => {
     const previousState = [];
-    const action = { type: 'ADD_TODO', text: 'Hello world', id: 1, completed: false };
+    const action = { type: 'ADD_TODO', text: 'Hello world', id: 1 };
     const nextState = todos(previousState, action);
 
     expect(nextState).not.toBe(previousState);
