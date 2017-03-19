@@ -16,4 +16,10 @@ const Todo = ({text, completed, onClick}) => (
   </li>
 );
 
+Todo.propTypes = {
+  text: React.PropTypes.string.isRequired,
+  completed: React.PropTypes.bool.isRequired,
+  onClick: React.PropTypes.func.isRequired,
+};
+
 export default Todo;

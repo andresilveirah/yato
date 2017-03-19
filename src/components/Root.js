@@ -8,4 +8,8 @@ const Root = ({ store }) => (
   </Provider>
 );
 
+Root.propTypes = {
+  store: React.PropTypes.object.isRequired
+};
+
 export default Root;

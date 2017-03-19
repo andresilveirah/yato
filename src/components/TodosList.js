@@ -24,4 +24,9 @@ const TodosList = ({todos, onTodoClick}) => (
   </ul>
 );
 
+TodosList.propTypes = {
+  todos: React.PropTypes.array.isRequired,
+  onTodoClick: React.PropTypes.func.isRequired
+};
+
 export default TodosList;

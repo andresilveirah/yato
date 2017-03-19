@@ -32,6 +32,10 @@ let AddTodo = ({ dispatch }) => {
   );
 };
 
+AddTodo.propTypes = {
+  dispatch: React.PropTypes.func.isRequired
+};
+
 /**
  * Generates a container component called AddTodo using the presentation
  * component. The connect method when called without parameters will, by
