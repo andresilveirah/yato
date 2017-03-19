@@ -16,7 +16,7 @@ const Link = ({ children, active, onClick }) => {
   }
   return (
     <a
-      href="#"
+      href="#/filter"
       onClick={(e) => {
         e.preventDefault();
         onClick();
@@ -25,6 +25,12 @@ const Link = ({ children, active, onClick }) => {
       {children}
     </a>
   );
+};
+
+Link.propTypes = {
+  children: React.PropTypes.node.isRequired,
+  active: React.PropTypes.bool.isRequired,
+  onClick: React.PropTypes.func.isRequired
 };
 
 export default Link;
