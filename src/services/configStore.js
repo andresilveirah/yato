@@ -1,4 +1,3 @@
-import React from 'react';
 import { createStore } from 'redux';
 import throttle from 'lodash/throttle';
 
@@ -18,6 +17,6 @@ const configStore = () => {
   }, PERSIST_STATE_INTERVAL));
 
   return store;
-}
+};
 
 export default configStore;
