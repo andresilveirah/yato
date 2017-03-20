@@ -7,7 +7,7 @@
  * @param  {Object} action the object containing the filter to be set
  * @return {String} the filter set
  */
-const visibilityFilter = (state = 'SHOW_ALL', action) => {
+const visibilityFilter = (state = 'all', action) => {
   switch (action.type) {
     case 'SET_VISIBILITY_FILTER':
       return state = action.filter;

@@ -9,11 +9,11 @@ import { toggleTodo } from '../actions/index';
 
 const getVisibleTodos = (todos, filter) => {
   switch (filter) {
-    case 'SHOW_ALL':
+    case 'all':
       return todos;
-    case 'SHOW_COMPLETED':
+    case 'completed':
       return todos.filter(t => t.completed);
-    case 'SHOW_INCOMPLETED':
+    case 'incompleted':
       return todos.filter(t => !t.completed);
     default:
       return todos;

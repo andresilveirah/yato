@@ -10,7 +10,7 @@ const Root = ({ store }) => (
     </header>
     <Provider store={store}>
       <Router>
-        <Route path='/' component={TodoApp} />
+        <Route exact path='/:filter?' component={TodoApp} />
       </Router>
     </Provider>
   </div>

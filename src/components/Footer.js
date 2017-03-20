@@ -4,7 +4,7 @@
 
 import React from 'react';
 
-import FilterLink from '../containers/FilterLink';
+import FilterLink from './FilterLink';
 
 /**
  * Presentation component for a Footer containing three
@@ -14,9 +14,9 @@ import FilterLink from '../containers/FilterLink';
 const Footer = () => (
   <p>
     Show:
-    <FilterLink filter='SHOW_ALL' >All</FilterLink>,
-    <FilterLink filter='SHOW_COMPLETED' >Completed</FilterLink>,
-    <FilterLink filter='SHOW_INCOMPLETED' >Incompleted</FilterLink>
+    <FilterLink filter='all'>All</FilterLink>,
+    <FilterLink filter='completed'>Completed</FilterLink>,
+    <FilterLink filter='incompleted'>Incompleted</FilterLink>
   </p>
 );
 
