@@ -2,15 +2,8 @@
   "name": "yato",
   "version": "0.0.1",
   "description": "Yet another TODO app using Redux",
-  "main": "./src/index.js",
-  "scripts": {
-    "test": "jest",
-    "lint": "eslint src/",
-    "build": "webpack",
-    "watch": "webpack-dev-server --content-base dist",
-    "docs": "rm -rf docs; jsdoc -c ./jsdoc.conf",
-    "deploy": "webpack -p; gh-pages -d dist"
-  },
+  "private": true,
+  "homepage": "http://codebikeandmore.com/yato",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/andresilveira/yato.git"
@@ -25,26 +18,6 @@
   "bugs": {
     "url": "https://github.com/andresilveira/yato/issues"
   },
-  "homepage": "https://github.com/andresilveira/yato#readme",
-  "devDependencies": {
-    "babel-core": "^6.24.0",
-    "babel-eslint": "^7.1.1",
-    "babel-jest": "^19.0.0",
-    "babel-loader": "^6.4.1",
-    "babel-polyfill": "^6.22.0",
-    "babel-preset-es2015": "^6.24.0",
-    "babel-preset-react": "^6.22.0",
-    "babel-register": "^6.24.0",
-    "eslint": "^3.17.1",
-    "eslint-plugin-import": "^2.2.0",
-    "eslint-plugin-jsx-a11y": "^4.0.0",
-    "eslint-plugin-react": "^6.10.0",
-    "gh-pages": "^0.12.0",
-    "jest": "^19.0.0",
-    "jsdoc": "^3.4.3",
-    "webpack": "^2.2.1",
-    "webpack-dev-server": "^2.4.2"
-  },
   "dependencies": {
     "lodash": "^4.17.4",
     "react": "^15.4.2",
@@ -52,13 +25,16 @@
     "react-redux": "^5.0.3",
     "redux": "^3.6.0"
   },
-  "jest": {
-    "moduleFileExtensions": [
-      "js",
-      "jsx"
-    ],
-    "moduleDirectories": [
-      "node_modules"
-    ]
+  "devDependencies": {
+    "gh-pages": "^0.12.0",
+    "react-scripts": "0.9.5"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "predeploy": "yarn run build",
+    "deploy": "gh-pages -d build"
   }
 }
