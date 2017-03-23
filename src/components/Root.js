@@ -3,9 +3,14 @@ import { Provider } from 'react-redux';
 import TodoApp from './TodoApp';
 
 const Root = ({ store }) => (
-  <Provider store={store}>
-    <TodoApp />
-  </Provider>
+  <div>
+    <header>
+      <h1>Yet another TODO app</h1>
+    </header>
+    <Provider store={store}>
+      <TodoApp />
+    </Provider>
+  </div>
 );
 
 Root.propTypes = {
