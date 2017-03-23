@@ -3,14 +3,14 @@ Yet another TODO app
 
 ## Install
 
-Run `npm install` (make sure you have `npm` installed).
+Run `yarn install` (make sure you have `yarn` installed).
 
 ## Build
 
-Run `npm run build`.
+Run `yarn run build`.
 
-You can try it out locally `dist/index.html` on your browser or  [codebikeandmore.com/yato](http://codebikeandmore.com/yato/)
+You can try it out locally by running `yarn run start` on your browser or  [codebikeandmore.com/yato](http://codebikeandmore.com/yato/)
 
 ## Test
 
-Run `npm test` and everything should be :green_heart:
+Run `yarn test` and everything should be :green_heart:
