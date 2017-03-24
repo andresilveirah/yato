@@ -3,26 +3,28 @@
  */
 
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 import TodosList from '../components/TodosList';
 import { toggleTodo } from '../actions/index';
 
 const getVisibleTodos = (todos, filter) => {
   switch (filter) {
-    case 'SHOW_ALL':
+    case 'all':
       return todos;
-    case 'SHOW_COMPLETED':
+    case 'completed':
       return todos.filter(t => t.completed);
-    case 'SHOW_INCOMPLETED':
+    case 'incompleted':
       return todos.filter(t => !t.completed);
     default:
       return todos;
   }
 };
 
-const mapTodosStateToProps = (state) => ({
-  todos: getVisibleTodos(state.todos, state.visibilityFilter)
+const mapTodosStateToProps = (state, { match }) => ({
+  todos: getVisibleTodos(state.todos, match.params.filter || 'all')
 });
+
 const mapTodosDispatchToProps = (dispatch) => ({
   onTodoClick: (id) => { dispatch(toggleTodo(id)); }
 });
@@ -36,9 +38,9 @@ const mapTodosDispatchToProps = (dispatch) => ({
  * dispatch state to the presentation props.
  * @return {Object} the VisibleTodosList container component
  */
-const VisibleTodosList = connect(
+const VisibleTodosList = withRouter(connect(
   mapTodosStateToProps,
   mapTodosDispatchToProps
-)(TodosList);
+)(TodosList));
 
 export default VisibleTodosList;

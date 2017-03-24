@@ -2,12 +2,8 @@
  * @module actions
  */
 
-// v4 is a function tha returns a unique string everytime it's called
+// uuid is a function tha returns a unique string everytime it's called
 import { uuid } from '../services/uuid';
-
-const setVisibilityFilter = (filter) => ({
-  type: 'SET_VISIBILITY_FILTER', filter
-});
 
 const toggleTodo = (id) => ({
   type: 'TOGGLE_TODO', id
@@ -18,13 +14,6 @@ const addTodo = (text) => ({
 });
 
 export {
-  /**
-   * @function
-   * @param  {String} filter  the filter to be set
-   * @return {Object} a SET_VISIBILITY_FILTER action
-   */
-  setVisibilityFilter,
-
   /**
    * @function
    * @param  {Number} id  the id of the Todo to be toggled
