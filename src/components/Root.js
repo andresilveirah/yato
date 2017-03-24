@@ -9,7 +9,7 @@ const Root = ({ store }) => (
       <h1>Yet another TODO app</h1>
     </header>
     <Provider store={store}>
-      <Router>
+      <Router basename='/yato'>
         <Route exact path='/:filter?' component={TodoApp} />
       </Router>
     </Provider>
