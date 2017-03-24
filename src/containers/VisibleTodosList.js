@@ -25,10 +25,6 @@ const mapTodosStateToProps = (state, { match }) => ({
   todos: getVisibleTodos(state.todos, match.params.filter || 'all')
 });
 
-const mapTodosDispatchToProps = (dispatch) => ({
-  onTodoClick: (id) => { dispatch(toggleTodo(id)); }
-});
-
 /**
  * Generates a container component called VisibleTodosList using the presentation
  * component {@link module:components/TodosList}
@@ -40,7 +36,7 @@ const mapTodosDispatchToProps = (dispatch) => ({
  */
 const VisibleTodosList = withRouter(connect(
   mapTodosStateToProps,
-  mapTodosDispatchToProps
+  { onTodoClick: toggleTodo }
 )(TodosList));
 
 export default VisibleTodosList;
