@@ -15,10 +15,10 @@ import VisibleTodosList from '../containers/VisibleTodosList';
  * {@link module:components/Footer}
  * @return {Object} the TodoApp presentation component.
  */
-const TodoApp = ({ match }) => (
+const TodoApp = () => (
   <div>
     <AddTodo />
-    <VisibleTodosList filter={match.params.filter || 'all'} />
+    <VisibleTodosList />
     <Footer />
   </div>
 );

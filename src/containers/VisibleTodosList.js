@@ -3,6 +3,7 @@
  */
 
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 import TodosList from '../components/TodosList';
 import { toggleTodo } from '../actions/index';
@@ -20,8 +21,8 @@ const getVisibleTodos = (todos, filter) => {
   }
 };
 
-const mapTodosStateToProps = (state, ownProps) => ({
-  todos: getVisibleTodos(state.todos, ownProps.filter)
+const mapTodosStateToProps = (state, { match }) => ({
+  todos: getVisibleTodos(state.todos, match.params.filter || 'all')
 });
 
 const mapTodosDispatchToProps = (dispatch) => ({
@@ -37,9 +38,9 @@ const mapTodosDispatchToProps = (dispatch) => ({
  * dispatch state to the presentation props.
  * @return {Object} the VisibleTodosList container component
  */
-const VisibleTodosList = connect(
+const VisibleTodosList = withRouter(connect(
   mapTodosStateToProps,
   mapTodosDispatchToProps
-)(TodosList);
+)(TodosList));
 
 export default VisibleTodosList;
