@@ -2,14 +2,14 @@ import { combineReducers } from 'redux';
 import todo from './todo';
 
 const isNotEmpty = (text) => text.replace(/\s/g,'').length > 0;
-const delegateToTodoReducer = (state, action) => ({...state, [action.id]: todo(state[action.id], action)})
+const delegateToTodoReducer = (state, action) => ({...state, [action.id]: todo(state[action.id], action)});
 
 const byId = (state = {}, action) => {
   switch (action.type) {
     case 'ADD_TODO':
       return isNotEmpty(action.text) ? delegateToTodoReducer(state, action) : state;
     case 'TOGGLE_TODO':
-      return delegateToTodoReducer(state, action)
+      return delegateToTodoReducer(state, action);
     default:
       return state;
   }
