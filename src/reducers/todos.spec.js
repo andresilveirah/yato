@@ -1,66 +1,58 @@
-import todos from './todos';
+import todos, { getVisibleTodos } from './todos';
+import todo from './todo';
+import { addTodo, toggleTodo } from '../actions';
 
 describe('todos reducer', () => {
-  describe('when receiving an action of TOGGLE_TODO with a given id', () => {
-    it('should toggle the completed property of the todo with the given id', () => {
-      const action = { type: 'TOGGLE_TODO', id: 1 };
-      let state = todos([{ text: 'Hello world', id: 1, completed: false }], action);
+  let state = undefined;
 
-      expect(state).toEqual([{ text: 'Hello world', id: 1, completed: true }]);
+  describe('when receiving an ADD_TODO action', () => {
+    describe('and the todos text is not empty', () => {
+      let action = addTodo('Hello world');
+
+      it('adds the todos id to its allIds attribute', () => {
+        expect(todos(state, action).allIds).toEqual([action.id]);
+      });
+
+      it('adds the todo to its byId attribute', () => {
+        expect(todos(state, action).byId).toEqual({
+          [action.id]: todo(state, action)
+        });
+      });
     });
+    describe('and the todos text is empty', () => {
+      let action = addTodo('');
 
-    it('toggling the same todo again will set completed to false', () => {
-      const action = { type: 'TOGGLE_TODO', id: 1 };
-      let state = todos([{ text: 'Hello world', id: 1, completed: false }], action);
-      state = todos(state, action);
+      it('doesn\'t add the todo id to its allIds attribute', () => {
+        expect(todos(state, action).allIds).toEqual([]);
+      });
 
-      expect(state).toEqual([{ text: 'Hello world', id: 1, completed: false }]);
-    });
-  });
-
-  describe('when receiving an action of ADD_TODO', () => {
-    it('should add the new todo to the state', () => {
-      const action = { type: 'ADD_TODO', text: 'Hello world', id: 1 };
-      const state = todos([], action);
-
-      expect(state).toEqual([{ text: 'Hello world', id: 1, completed: false }]);
-    });
-
-    describe('and the todo\'s text is empty', () => {
-      it('should not add the new todo to the state', () => {
-        let action = { type: 'ADD_TODO', text: '', id: 1 };
-        let state = todos([], action);
-        expect(state).toEqual([]);
-
-        action = { type: 'ADD_TODO', text: '     ', id: 1 };
-        state = todos([], action);
-        expect(state).toEqual([]);
+      it('doesn\'t add the todo to its byId attribute', () => {
+        expect(todos(state, action).byId).toEqual({});
       });
     });
   });
 
-  describe('when receiving an action of REMOVE_TODO', () => {
-    it('should add the new todo to the state', () => {
-      const action = { type: 'REMOVE_TODO', id: 1, completed: false };
-      const currentState = [{text: 'Hello world', id: 1, completed: false }];
-      const nextState = todos(currentState, action);
+  describe('when receiving a TOGGLE_TODO action', () => {
+    let action = toggleTodo(1);
 
-      expect(nextState).toEqual([]);
+    it('allIds attribute should not change', () => {
+      let state = { allIds: [1,2,3] };
+
+      expect(todos(state, action).allIds).toEqual(state.allIds);
     });
-  });
 
-  describe('when receiving an unknown action', () => {
-    it('should return its current state', () => {
-      const state = todos([], {});
-      expect(state).toEqual([]);
+    it('byId should delegate the TOGGLE_TODO action to the todo reducer', () => {
+      let state = {
+        byId: {
+          "1": { id: 1, text: 'to be toggled', completed: false },
+          "2": { id: 2, text: 'hello world', completed: false }
+        }
+      };
+
+      expect(todos(state, action).byId).toEqual({
+        "1": { id: 1, text: 'to be toggled', completed: true },
+        "2": { id: 2, text: 'hello world', completed: false }
+      })
     });
-  });
-
-  it('should not mutate the state object', () => {
-    const previousState = [];
-    const action = { type: 'ADD_TODO', text: 'Hello world', id: 1 };
-    const nextState = todos(previousState, action);
-
-    expect(nextState).not.toBe(previousState);
   });
 });
