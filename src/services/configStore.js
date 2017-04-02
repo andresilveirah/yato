@@ -1,36 +1,10 @@
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
+import promise from 'redux-promise';
+import logger from 'redux-logger';
 import reducers from '../reducers/';
-
-const logger = (store) => (next) => {
-  if (!console.group) return next;
-
-  return (action) => {
-    console.group(action.type);
-    console.log('%c prev state', 'color: grey', store.getState());
-    console.log('%c action', 'color: blue', action);
-    const rawValue = next(action);
-    console.log('%c current state', 'color: green', store.getState());
-    console.groupEnd(action.type);
-    return rawValue;
-  };
-};
-
-const promise = (store) => (next) => (action) => {
-  if(typeof action.then === 'function') {
-    return action.then(next);
-  }
-  return next(action);
-};
-
-const wrapDispatchWithMiddlewares = (store, middlewares) => {
-  middlewares.slice().reverse().forEach(middleware => {
-    store.dispatch = middleware(store)(store.dispatch);
-  });
-};
 
 const configStore = () => {
   const middlewares = [ promise ];
-  const store = createStore(reducers);
 
   // CATCHA: create-react-app only exposes env variables which are prefixed with REACT_APP_
   // this is to avoid security issues e.g. exposing sensible env variables in the front end
@@ -38,9 +12,10 @@ const configStore = () => {
     middlewares.push(logger);
   }
 
-  wrapDispatchWithMiddlewares(store, middlewares);
-
-  return store;
+  return createStore(
+    reducers,
+    applyMiddleware(...middlewares)
+  );
 };
 
 export default configStore;
