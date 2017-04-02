@@ -5,7 +5,6 @@ import { withRouter } from 'react-router-dom';
 import TodosList from '../components/TodosList';
 import * as actions from '../actions/index';
 import { getVisibleTodos } from '../reducers';
-import { fetchTodos } from '../services/api';
 
 class VisibleTodosList extends Component {
   componentDidMount() {
@@ -19,8 +18,8 @@ class VisibleTodosList extends Component {
   }
 
   fetchData() {
-    const { filter, receiveTodos } = this.props;
-    fetchTodos(filter).then(todos => receiveTodos(filter, todos));
+    const { filter, fetchTodos } = this.props;
+    fetchTodos(filter);
   }
 
   render() {

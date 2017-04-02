@@ -4,12 +4,16 @@
 
 // uuid is a function tha returns a unique string everytime it's called
 import { uuid } from '../services/uuid';
+import * as api from '../services/api';
 
-export const receiveTodos = (filter, todos) => ({
+const receiveTodos = (filter, response) => ({
   type: 'RECEIVE_TODOS',
   filter,
-  todos
+  response
 });
+
+export const fetchTodos = (filter) =>
+  api.fetchTodos(filter).then(response => receiveTodos(filter, response));
 
 export const toggleTodo = (id) => ({
   type: 'TOGGLE_TODO', id
