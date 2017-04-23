@@ -3,6 +3,7 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const ARCHIVE_SHORTCUT_KEY_CODE = 65; // 'a'
 
@@ -30,9 +31,9 @@ const Todo = ({text, completed, onClick}) => (
 );
 
 Todo.propTypes = {
-  text: React.PropTypes.string.isRequired,
-  completed: React.PropTypes.bool.isRequired,
-  onClick: React.PropTypes.func.isRequired,
+  text: PropTypes.string.isRequired,
+  completed: PropTypes.bool.isRequired,
+  onClick: PropTypes.func.isRequired,
 };
 
 export default Todo;

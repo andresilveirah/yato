@@ -3,6 +3,7 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import { NavLink as Link } from 'react-router-dom';
 
 /**
@@ -21,8 +22,8 @@ const FilterLink = ({children, filter}) => (
 );
 
 FilterLink.propTypes = {
-  filter: React.PropTypes.string.isRequired,
-  children: React.PropTypes.node.isRequired
+  filter: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired
 };
 
 export default FilterLink;

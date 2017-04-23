@@ -3,6 +3,7 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { addTodo } from '../actions/index';
@@ -33,7 +34,7 @@ let AddTodo = ({ dispatch }) => {
 };
 
 AddTodo.propTypes = {
-  dispatch: React.PropTypes.func.isRequired
+  dispatch: PropTypes.func.isRequired
 };
 
 /**
