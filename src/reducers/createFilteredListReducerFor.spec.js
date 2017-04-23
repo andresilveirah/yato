@@ -6,13 +6,14 @@ describe('createFilteredListReducerFor', () => {
   const response = [{ id: 1 }, { id: 2 }, { id: 3 }];
 
   const reducer = createFilteredListReducerFor(filter);
+  let state = { ids: [], isFetching: false };
   let action;
 
   describe('when the action filter does not match the reduers filter', () => {
     beforeEach(() => { action = { filter: 'another filter' }; });
 
     it('simply returns its state', () => {
-      expect(reducer('some state', action)).toEqual('some state');
+      expect(reducer(state, action)).toEqual(state);
     });
   });
 
@@ -20,21 +21,25 @@ describe('createFilteredListReducerFor', () => {
     beforeEach(() => { action = { type: 'SOMETHING_UNKNOWN', filter }; });
 
     it('simply returns its state', () => {
-      expect(reducer('some state', action)).toEqual('some state');
+      expect(reducer(state, action)).toEqual(state);
     });
   });
 
   describe('when the action type RECEIVE_TODOS and the filter matches', () => {
     beforeEach(() => { action = { type, filter, response }; });
 
-    it('simply returns its state', () => {
-      expect(reducer('some state', action)).toEqual([1, 2, 3]);
+    it('maps the ids from the response to its state.ids', () => {
+      expect(reducer(state, action).ids).toEqual([1, 2, 3]);
+    });
+
     });
   });
 
   describe('getIds', () => {
-    it('returns its own argument for now', () => {
-      expect(getIds('hello world')).toEqual('hello world');
+    it('returns the value of state.ids', () => {
+      expect(getIds(state)).toEqual([]);
+    });
+  });
     });
   });
 });
