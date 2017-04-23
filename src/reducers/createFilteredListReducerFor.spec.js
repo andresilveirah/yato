@@ -1,4 +1,4 @@
-import createFilteredListReducerFor, { getIds } from './createFilteredListReducerFor';
+import createFilteredListReducerFor, { getIds, getIsFetching } from './createFilteredListReducerFor';
 
 describe('createFilteredListReducerFor', () => {
   const filter = 'filter';
@@ -32,6 +32,8 @@ describe('createFilteredListReducerFor', () => {
       expect(reducer(state, action).ids).toEqual([1, 2, 3]);
     });
 
+    it('sets the isFetching attribute to false', () => {
+      expect(reducer({...state, isFetching: true}, action).isFetching).toEqual(false);
     });
   });
 
@@ -40,6 +42,10 @@ describe('createFilteredListReducerFor', () => {
       expect(getIds(state)).toEqual([]);
     });
   });
+
+  describe('getIsFetching', () => {
+    it('returns the value of state.isFetching', () => {
+      expect(getIsFetching(state)).toEqual(false);
     });
   });
 });

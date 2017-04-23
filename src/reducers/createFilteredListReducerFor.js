@@ -12,9 +12,21 @@ const createFilteredListReducerFor = (filter) => {
     }
   };
 
-  return combineReducers({ ids });
+  const isFetching = (state = false, action) => {
+    if(action.filter !== filter) { return state; }
+
+    switch (action.type) {
+      case 'RECEIVE_TODOS':
+        return false;
+      default:
+        return state;
+    }
+  };
+
+  return combineReducers({ ids, isFetching });
 };
 
 export default createFilteredListReducerFor;
 
 export const getIds = (state) => state.ids;
+export const getIsFetching = (state) => state.isFetching;
