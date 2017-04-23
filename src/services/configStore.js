@@ -1,12 +1,7 @@
 import { createStore, applyMiddleware } from 'redux';
-// import promise from 'redux-promise';
+import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 import reducers from '../reducers/';
-
-const thunk = (store) => (next) => (action) =>
-  typeof action === 'function' ?
-    action(store.dispatch) :
-    next(action);
 
 const configStore = () => {
   const middlewares = [ thunk ];
