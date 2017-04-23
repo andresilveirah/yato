@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
@@ -18,7 +19,8 @@ class VisibleTodosList extends Component {
   }
 
   fetchData() {
-    const { filter, fetchTodos } = this.props;
+    const { filter, fetchTodos, requestTodos } = this.props;
+    requestTodos(filter);
     fetchTodos(filter);
   }
 
@@ -32,6 +34,13 @@ class VisibleTodosList extends Component {
     );
   }
 }
+
+VisibleTodosList.propTypes = {
+  filter: PropTypes.oneOf(['all', 'completed', 'incompleted']).isRequired,
+  requestTodos: PropTypes.func.isRequired,
+  fetchTodos: PropTypes.func.isRequired,
+  toggleTodo: PropTypes.func.isRequired
+};
 
 const mapTodosStateToProps = (state, { match }) => {
   const filter = match.params.filter || 'all';

@@ -6,6 +6,11 @@
 import { uuid } from '../services/uuid';
 import * as api from '../services/api';
 
+export const requestTodos = (filter) => ({
+  type: 'REQUEST_TODOS',
+  filter
+});
+
 const receiveTodos = (filter, response) => ({
   type: 'RECEIVE_TODOS',
   filter,
