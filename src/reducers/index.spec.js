@@ -1,4 +1,4 @@
-import { getVisibleTodos } from './todos';
+import { getVisibleTodos } from './';
 
 describe('todos reducer', () => {
   let state = {};
