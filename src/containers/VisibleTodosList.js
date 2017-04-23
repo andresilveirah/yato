@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 
 import TodosList from '../components/TodosList';
 import * as actions from '../actions/index';
-import { getVisibleTodos } from '../reducers';
+import { getVisibleTodos, getIsFetching } from '../reducers';
 
 class VisibleTodosList extends Component {
   componentDidMount() {
@@ -25,17 +25,17 @@ class VisibleTodosList extends Component {
   }
 
   render() {
-    const { toggleTodo, ...rest } = this.props;
-    return (
-      <TodosList
-        {...rest}
-        onTodoClick={ toggleTodo }
-      />
-    );
+    const { toggleTodo, isFetching, todos } = this.props;
+
+    if(isFetching && !todos.length) { return <p>Loading...</p>; }
+
+    return <TodosList todos={todos} onTodoClick={ toggleTodo }/>;
   }
 }
 
 VisibleTodosList.propTypes = {
+  todos: PropTypes.array.isRequired,
+  isFetching: PropTypes.bool.isRequired,
   filter: PropTypes.oneOf(['all', 'completed', 'incompleted']).isRequired,
   requestTodos: PropTypes.func.isRequired,
   fetchTodos: PropTypes.func.isRequired,
@@ -46,6 +46,7 @@ const mapTodosStateToProps = (state, { match }) => {
   const filter = match.params.filter || 'all';
   return {
     todos: getVisibleTodos(state, filter),
+    isFetching: getIsFetching(state, filter),
     filter
   };
 };
