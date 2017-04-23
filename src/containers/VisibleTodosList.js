@@ -1,30 +1,58 @@
-/**
- * @module containers/VisibleTodosList
- */
-
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import TodosList from '../components/TodosList';
-import { toggleTodo } from '../actions/index';
-import { getVisibleTodos } from '../reducers';
+import * as actions from '../actions/index';
+import { getVisibleTodos, getIsFetching } from '../reducers';
 
-const mapTodosStateToProps = (state, { match }) => ({
-  todos: getVisibleTodos(state, match.params.filter || 'all')
-});
+class VisibleTodosList extends Component {
+  componentDidMount() {
+    this.fetchData();
+  }
 
-/**
- * Generates a container component called VisibleTodosList using the presentation
- * component {@link module:components/TodosList}
- * @param  {Object} mapTodosStateToProps a map between the Container own
- * state to the presentation props.
- * @param  {Object} mapTodosDispatchToProps a map between the store
- * dispatch state to the presentation props.
- * @return {Object} the VisibleTodosList container component
- */
-const VisibleTodosList = withRouter(connect(
+  componentDidUpdate(prevProps) {
+    if(prevProps.filter !== this.props.filter) {
+      this.fetchData();
+    }
+  }
+
+  fetchData() {
+    const { filter, fetchTodos } = this.props;
+    fetchTodos(filter);
+  }
+
+  render() {
+    const { toggleTodo, isFetching, todos } = this.props;
+
+    if(isFetching && !todos.length) { return <p>Loading...</p>; }
+
+    return <TodosList todos={todos} onTodoClick={ toggleTodo }/>;
+  }
+}
+
+VisibleTodosList.propTypes = {
+  todos: PropTypes.array.isRequired,
+  isFetching: PropTypes.bool.isRequired,
+  filter: PropTypes.oneOf(['all', 'completed', 'incompleted']).isRequired,
+  requestTodos: PropTypes.func.isRequired,
+  fetchTodos: PropTypes.func.isRequired,
+  toggleTodo: PropTypes.func.isRequired
+};
+
+const mapTodosStateToProps = (state, { match }) => {
+  const filter = match.params.filter || 'all';
+  return {
+    todos: getVisibleTodos(state, filter),
+    isFetching: getIsFetching(state, filter),
+    filter
+  };
+};
+
+VisibleTodosList = withRouter(connect(
   mapTodosStateToProps,
-  { onTodoClick: toggleTodo }
-)(TodosList));
+  actions
+)(VisibleTodosList));
 
 export default VisibleTodosList;
