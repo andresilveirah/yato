@@ -24,3 +24,6 @@ export const getVisibleTodos = (state, filter) => {
   const ids = fromCreateFilteredListReducerFor.getIds(state.idsByFilter[filter]);
   return ids.map(id => fromById.getTodo(state.byId, id));
 };
+
+export const getIsFetching = (state, filter) =>
+  fromCreateFilteredListReducerFor.getIsFetching(state.idsByFilter[filter]);

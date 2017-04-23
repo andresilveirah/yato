@@ -1,4 +1,4 @@
-import { getVisibleTodos } from './';
+import { getVisibleTodos, getIsFetching } from './';
 
 describe('todos reducer', () => {
   let state = {};
@@ -45,6 +45,14 @@ describe('todos reducer', () => {
       expect(getVisibleTodos(state, 'incompleted')).toEqual([
         { id: 2, text: 'incompleted todo', completed: false }
       ]);
+    });
+  });
+
+  describe('getIsFetching selector', () => {
+    beforeEach(() => { state = { idsByFilter: { all: { isFetching: true } } }; });
+
+    it('returns the isFetching attribute from a given list', () => {
+      expect(getIsFetching(state, 'all')).toEqual(true);
     });
   });
 });
