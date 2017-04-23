@@ -18,6 +18,8 @@ const createFilteredListReducerFor = (filter) => {
     switch (action.type) {
       case 'RECEIVE_TODOS':
         return false;
+      case 'REQUEST_TODOS':
+        return true;
       default:
         return state;
     }

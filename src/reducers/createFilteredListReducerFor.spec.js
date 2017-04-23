@@ -2,7 +2,7 @@ import createFilteredListReducerFor, { getIds, getIsFetching } from './createFil
 
 describe('createFilteredListReducerFor', () => {
   const filter = 'filter';
-  const type = 'RECEIVE_TODOS';
+  let type = 'RECEIVE_TODOS';
   const response = [{ id: 1 }, { id: 2 }, { id: 3 }];
 
   const reducer = createFilteredListReducerFor(filter);
@@ -34,6 +34,17 @@ describe('createFilteredListReducerFor', () => {
 
     it('sets the isFetching attribute to false', () => {
       expect(reducer({...state, isFetching: true}, action).isFetching).toEqual(false);
+    });
+
+    describe('when the action type REQUEST_TODOS and the filter matches', () => {
+      beforeEach(() => {
+        type = 'REQUEST_TODOS';
+        action = {type, filter, response };
+      });
+
+      it('sets the isFetching attribute to true', () => {
+        expect(reducer({...state, isFetching: false}, action).isFetching).toEqual(true);
+      });
     });
   });
 
