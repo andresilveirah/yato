@@ -1,10 +1,12 @@
+import { uuid } from './uuid';
+
 // fake delay from the "server"
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 const fakeDB = [
-  { id:  '1', text: 'hey', completed: false },
-  { id:  '2', text: 'ho', completed: false },
-  { id:  '3', text: 'lets go', completed: true }
+  { id:  uuid(), text: 'hey', completed: false },
+  { id:  uuid(), text: 'ho', completed: false },
+  { id:  uuid(), text: 'lets go', completed: true }
 ];
 
 const fetchTodos = (filter) => delay(1000).then(() => {
