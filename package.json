@@ -1,6 +1,6 @@
 {
   "name": "yato",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Yet another TODO app using Redux",
   "private": true,
   "homepage": "http://codebikeandmore.com/yato",
