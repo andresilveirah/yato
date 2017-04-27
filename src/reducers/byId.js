@@ -1,7 +1,7 @@
 const byId = (state = {}, action) => {
   let nextState;
   switch (action.type) {
-    case 'RECEIVE_TODOS':
+    case 'FETCH_TODOS_SUCCESS':
       nextState = { ...state };
       action.response.forEach(todo => { nextState[todo.id] = todo; });
       return nextState;

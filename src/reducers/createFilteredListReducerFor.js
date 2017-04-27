@@ -5,7 +5,7 @@ const createFilteredListReducerFor = (filter) => {
     if(action.filter !== filter) { return state; }
 
     switch (action.type) {
-     case 'RECEIVE_TODOS':
+     case 'FETCH_TODOS_SUCCESS':
        return action.response.map(todo => todo.id);
      default:
        return state;
@@ -16,19 +16,35 @@ const createFilteredListReducerFor = (filter) => {
     if(action.filter !== filter) { return state; }
 
     switch (action.type) {
-      case 'RECEIVE_TODOS':
+      case 'FETCH_TODOS_SUCCESS':
+      case 'FETCH_TODOS_FAILURE':
         return false;
-      case 'REQUEST_TODOS':
+      case 'FETCH_TODOS_REQUEST':
         return true;
       default:
         return state;
     }
   };
 
-  return combineReducers({ ids, isFetching });
+  const errorMessage = (state = null, action) => {
+    if(action.filter !== filter) { return state; }
+
+    switch (action.type) {
+      case 'FETCH_TODOS_FAILURE':
+        return action.message;
+      case 'FETCH_TODOS_SUCCESS':
+      case 'FETCH_TODOS_REQUEST':
+        return null;
+      default:
+        return state;
+    }
+  };
+
+  return combineReducers({ ids, isFetching, errorMessage });
 };
 
 export default createFilteredListReducerFor;
 
 export const getIds = (state) => state.ids;
 export const getIsFetching = (state) => state.isFetching;
+export const getErrorMessage = (state) => state.errorMessage;
