@@ -1,7 +1,7 @@
 import byId, { getTodo } from './byId';
 
 describe('createFilteredListReducerFor', () => {
-  const type = 'RECEIVE_TODOS';
+  const type = 'FETCH_TODOS_SUCCESS';
   const response = [{ id: 1, text: 'hey' }, { id: 2, text: 'ho' }];
 
   const reducer = byId;
@@ -16,7 +16,7 @@ describe('createFilteredListReducerFor', () => {
     });
   });
 
-  describe('when the action type is RECEIVE_TODOS', () => {
+  describe('when the action type is FETCH_TODOS_SUCCESS', () => {
     beforeEach(() => { action = { type, response }; });
 
     describe('and the state doesnt contain the todos in the response', () => {

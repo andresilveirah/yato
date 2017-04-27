@@ -1,15 +1,6 @@
 import * as actions from  './index';
 
 describe('action', () => {
-  describe('requestTodos()', () => {
-    it('should contain the filter of the requested todos', () => {
-      expect(actions.requestTodos('filter')).toMatchObject({
-        type: 'REQUEST_TODOS',
-        filter: 'filter'
-      });
-    });
-  });
-
   it('toggleTodo should create a TOGGLE_TODO action', () => {
     expect(actions.toggleTodo(1)).toMatchObject({
       type: 'TOGGLE_TODO', id: 1

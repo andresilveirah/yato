@@ -2,7 +2,7 @@ import createFilteredListReducerFor, { getIds, getIsFetching } from './createFil
 
 describe('createFilteredListReducerFor', () => {
   const filter = 'filter';
-  let type = 'RECEIVE_TODOS';
+  let type = 'FETCH_TODOS_SUCCESS';
   const response = [{ id: 1 }, { id: 2 }, { id: 3 }];
 
   const reducer = createFilteredListReducerFor(filter);
@@ -25,7 +25,7 @@ describe('createFilteredListReducerFor', () => {
     });
   });
 
-  describe('when the action type RECEIVE_TODOS and the filter matches', () => {
+  describe('when the action type FETCH_TODOS_SUCCESS and the filter matches', () => {
     beforeEach(() => { action = { type, filter, response }; });
 
     it('maps the ids from the response to its state.ids', () => {
@@ -36,9 +36,9 @@ describe('createFilteredListReducerFor', () => {
       expect(reducer({...state, isFetching: true}, action).isFetching).toEqual(false);
     });
 
-    describe('when the action type REQUEST_TODOS and the filter matches', () => {
+    describe('when the action type FETCH_TODOS_REQUEST and the filter matches', () => {
       beforeEach(() => {
-        type = 'REQUEST_TODOS';
+        type = 'FETCH_TODOS_REQUEST';
         action = {type, filter, response };
       });
 
