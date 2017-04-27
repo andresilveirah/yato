@@ -27,3 +27,6 @@ export const getVisibleTodos = (state, filter) => {
 
 export const getIsFetching = (state, filter) =>
   fromCreateFilteredListReducerFor.getIsFetching(state.idsByFilter[filter]);
+
+export const getErrorMessage = (state, filter) =>
+  fromCreateFilteredListReducerFor.getErrorMessage(state.idsByFilter[filter]);
