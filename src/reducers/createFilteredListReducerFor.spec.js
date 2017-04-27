@@ -6,7 +6,7 @@ describe('createFilteredListReducerFor', () => {
   const response = [{ id: 1 }, { id: 2 }, { id: 3 }];
 
   const reducer = createFilteredListReducerFor(filter);
-  let state = { ids: [], isFetching: false };
+  let state = { ids: [], isFetching: false, errorMessage: null };
   let action;
 
   describe('when the action filter does not match the reduers filter', () => {
