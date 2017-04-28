@@ -1,19 +1,17 @@
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
-import logger from 'redux-logger';
 import reducers from '../reducers/';
 
 const configStore = () => {
   const middlewares = [ thunk ];
-
-  // GOTCHA: create-react-app only exposes env variables which are prefixed with REACT_APP_
-  // this is to avoid security issues e.g. exposing sensible env variables in the front end
-  if(process.env.REACT_APP_DEBUG === 'true') {
-    middlewares.push(logger);
-  }
+  const enableReduxDevTools = () =>
+      typeof window !== 'undefined'
+        && window.__REDUX_DEVTOOLS_EXTENSION__
+        && window.__REDUX_DEVTOOLS_EXTENSION__();
 
   return createStore(
     reducers,
+    enableReduxDevTools(),
     applyMiddleware(...middlewares)
   );
 };
