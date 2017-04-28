@@ -22,5 +22,11 @@ const fetchTodos = (filter) => delay(1000).then(() => {
   }
 });
 
+const addTodo = (text) => delay(1000).then(() => {
+  const todo = {id: uuid(), text, completed: false};
+  fakeDB.push(todo);
+  return todo;
+});
 
-export { fetchTodos };
+
+export { fetchTodos, addTodo };

@@ -1,24 +1,22 @@
+import configStore from '../services/configStore';
 import * as actions from  './index';
 
 describe('action', () => {
+  let store;
+
+  beforeEach(() => store = configStore({ todos: [] }));
+
   it('toggleTodo should create a TOGGLE_TODO action', () => {
-    expect(actions.toggleTodo(1)).toMatchObject({
-      type: 'TOGGLE_TODO', id: 1
-    });
-  });
+    const todoText = 'text';
 
-  describe('addTodo should', () => {
-    it('create a ADD_TODO action', () => {
-      expect(actions.addTodo('text')).toMatchObject({
-        type: 'ADD_TODO', text: 'text'
-      });
-    });
-
-    it('and should provide a unique id', () => {
-      const firstId = actions.addTodo('text').id;
-      const secondId = actions.addTodo('text').id;
-
-      expect(firstId).not.toEqual(secondId);
+    return store.dispatch(actions.addTodo(todoText)).then((action) => {
+      expect(action).toMatchObject(
+        {
+          type: 'ADD_TODO_SUCCESS',
+          response: { completed: false, text: 'text' }
+        }
+      );
+      expect(action.response.id).toBeDefined();
     });
   });
 });
