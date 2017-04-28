@@ -3,7 +3,6 @@
  */
 
 // uuid is a function tha returns a unique string everytime it's called
-import { uuid } from '../services/uuid';
 import * as api from '../services/api';
 import { getIsFetching } from '../reducers';
 
@@ -29,4 +28,5 @@ export const fetchTodos = (filter) => (dispatch, getState) => {
 
 export const toggleTodo = (id) => ({ type: 'TOGGLE_TODO', id });
 
-export const addTodo = (text) => ({ type: 'ADD_TODO', text, id: uuid() });
+export const addTodo = (text) => (dispatch) =>
+  api.addTodo(text).then(response => dispatch({ type: 'ADD_TODO_SUCCESS', response }));
