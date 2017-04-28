@@ -28,5 +28,14 @@ const addTodo = (text) => delay(1000).then(() => {
   return todo;
 });
 
+const toggleTodo = (id) => delay(1000).then(() => {
+  const todo = fakeDB.find(t => t.id === id);
+  if(undefined !== todo) {
+    todo.completed = !todo.completed;
+    return todo;
+  } else {
+    throw new Error(`Could not find todo with the id: ${id}`);
+  }
+});
 
-export { fetchTodos, addTodo };
+export { fetchTodos, addTodo, toggleTodo };
