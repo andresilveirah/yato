@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import types from '../actions/types';
 
 const createFilteredListReducerFor = (filter) => {
   const handleToggleTodo = (state, todo) => {
@@ -19,11 +20,11 @@ const createFilteredListReducerFor = (filter) => {
 
   const ids = (state = [], action) => {
     switch (action.type) {
-     case 'FETCH_TODOS_SUCCESS':
+     case types.FETCH_TODOS_SUCCESS:
        return filter === action.filter ? action.response.map(todo => todo.id) : state;
-     case 'ADD_TODO_SUCCESS':
+     case types.ADD_TODO_SUCCESS:
        return filter !== 'completed' ? [...state, action.response.id] : state;
-     case 'TOGGLE_TODO_SUCCESS':
+     case types.TOGGLE_TODO_SUCCESS:
        return handleToggleTodo(state, action.response);
      default:
        return state;
@@ -34,10 +35,10 @@ const createFilteredListReducerFor = (filter) => {
     if(action.filter !== filter) { return state; }
 
     switch (action.type) {
-      case 'FETCH_TODOS_SUCCESS':
-      case 'FETCH_TODOS_FAILURE':
+      case types.FETCH_TODOS_SUCCESS:
+      case types.FETCH_TODOS_FAILURE:
         return false;
-      case 'FETCH_TODOS_REQUEST':
+      case types.FETCH_TODOS_REQUEST:
         return true;
       default:
         return state;
@@ -48,10 +49,10 @@ const createFilteredListReducerFor = (filter) => {
     if(action.filter !== filter) { return state; }
 
     switch (action.type) {
-      case 'FETCH_TODOS_FAILURE':
+      case types.FETCH_TODOS_FAILURE:
         return action.message;
-      case 'FETCH_TODOS_SUCCESS':
-      case 'FETCH_TODOS_REQUEST':
+      case types.FETCH_TODOS_SUCCESS:
+      case types.FETCH_TODOS_REQUEST:
         return null;
       default:
         return state;

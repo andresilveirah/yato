@@ -1,4 +1,5 @@
 import createFilteredListReducerFor, { getIds, getIsFetching } from './createFilteredListReducerFor';
+import types from '../actions/types';
 
 describe('createFilteredListReducerFor', () => {
   let filter = 'filter';
@@ -26,7 +27,7 @@ describe('createFilteredListReducerFor', () => {
 
   describe('when the action type ADD_TODO_SUCCESS and the filter matches', () => {
     beforeEach(() => {
-      type = 'ADD_TODO_SUCCESS';
+      type = types.ADD_TODO_SUCCESS;
       response = { id: 1 };
     });
 
@@ -55,7 +56,7 @@ describe('createFilteredListReducerFor', () => {
 
   describe('when the action type FETCH_TODOS_SUCCESS and the filter matches', () => {
     beforeEach(() => {
-      type = 'FETCH_TODOS_SUCCESS';
+      type = types.FETCH_TODOS_SUCCESS;
       response = [{ id: 1 }, { id: 2 }, { id: 3 }];
       action = { type, filter, response };
     });
@@ -70,7 +71,7 @@ describe('createFilteredListReducerFor', () => {
 
     describe('when the action type FETCH_TODOS_REQUEST and the filter matches', () => {
       beforeEach(() => {
-        type = 'FETCH_TODOS_REQUEST';
+        type = types.FETCH_TODOS_REQUEST;
         action = {type, filter, response };
       });
 
@@ -81,7 +82,7 @@ describe('createFilteredListReducerFor', () => {
   });
 
   describe('when the action type TOGGLE_TODO_SUCCESS and the filter matches', () => {
-    beforeEach(() => { type = 'TOGGLE_TODO_SUCCESS'; });
+    beforeEach(() => { type = types.TOGGLE_TODO_SUCCESS; });
 
     ['completed', 'incompleted'].forEach((f) => {
       describe(`and the filter is ${f}`, () => {

@@ -1,3 +1,4 @@
+import types from '../actions/types';
 import byId, { getTodo } from './byId';
 
 describe('createFilteredListReducerFor', () => {
@@ -22,7 +23,7 @@ describe('createFilteredListReducerFor', () => {
 
   describe('when the action type is ADD_TODO_SUCCESS', () => {
     beforeEach(() => {
-      type = 'ADD_TODO_SUCCESS';
+      type = types.ADD_TODO_SUCCESS;
       response = { id: 1, text: 'hey' };
       action = { type, response };
     });
@@ -34,7 +35,7 @@ describe('createFilteredListReducerFor', () => {
 
   describe('when the action type is TOGGLE_TODO_SUCCESS', () => {
     beforeEach(() => {
-      type = 'TOGGLE_TODO_SUCCESS';
+      type = types.TOGGLE_TODO_SUCCESS;
       response = { id: 1, text: 'hey', completed: true };
       action = { type, response };
     });
@@ -46,7 +47,7 @@ describe('createFilteredListReducerFor', () => {
 
   describe('when the action type is FETCH_TODOS_SUCCESS', () => {
     beforeEach(() => {
-      type = 'FETCH_TODOS_SUCCESS';
+      type = types.FETCH_TODOS_SUCCESS;
       response = [{ id: 1, text: 'hey' }, { id: 2, text: 'ho' }];
       action = { type, response };
     });

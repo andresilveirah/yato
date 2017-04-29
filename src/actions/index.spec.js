@@ -1,5 +1,5 @@
 import configStore from '../services/configStore';
-import * as actions from  './index';
+import * as actions from  './';
 import * as api from '../services/api';
 
 describe('action', () => {
