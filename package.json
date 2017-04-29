@@ -19,6 +19,7 @@
     "url": "https://github.com/andresilveira/yato/issues"
   },
   "dependencies": {
+    "normalizr": "^3.2.2",
     "prop-types": "^15.5.8",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
