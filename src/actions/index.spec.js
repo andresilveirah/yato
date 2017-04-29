@@ -1,22 +1,42 @@
 import configStore from '../services/configStore';
 import * as actions from  './index';
+import * as api from '../services/api';
 
 describe('action', () => {
   let store;
-
   beforeEach(() => store = configStore({ todos: [] }));
 
-  it('toggleTodo should create a TOGGLE_TODO action', () => {
+  it('addTodo should create a ADD_TODO_SUCCESS action', () => {
     const todoText = 'text';
+    const todo = { id: '123', text: todoText, completed: false };
+    api.addTodo = jest.fn().mockReturnValueOnce(new Promise(
+      resolve => resolve(todo)
+    ));
 
     return store.dispatch(actions.addTodo(todoText)).then((action) => {
-      expect(action).toMatchObject(
-        {
-          type: 'ADD_TODO_SUCCESS',
-          response: { completed: false, text: 'text' }
-        }
-      );
-      expect(action.response.id).toBeDefined();
+      expect(action).toMatchObject({ type: 'ADD_TODO_SUCCESS', response: todo });
+    });
+  });
+
+  it('toggleTodo should create a TOGGLE_TODO_SUCCESS action when the todo is found', () => {
+    const todo = { id: '123', text: 'hello', completed: true };
+    api.toggleTodo = jest.fn().mockReturnValueOnce(new Promise(
+      resolve => resolve(todo)
+    ));
+
+    return store.dispatch(actions.toggleTodo(todo.id)).then((action) => {
+      expect(action).toMatchObject({ type: 'TOGGLE_TODO_SUCCESS', response: todo });
+    });
+  });
+
+  it('toggleTodo should create a TOGGLE_TODO_FAILURE action when the todo cannot be found', () => {
+    const errorMessage = 'boom';
+    api.toggleTodo = jest.fn().mockReturnValueOnce(new Promise(
+      () => { throw new Error(errorMessage); }
+    ));
+
+    return store.dispatch(actions.toggleTodo('123')).then((action) => {
+      expect(action).toMatchObject({ type: 'TOGGLE_TODO_FAILURE', response: errorMessage });
     });
   });
 });

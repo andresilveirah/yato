@@ -1,12 +1,30 @@
 import { combineReducers } from 'redux';
 
 const createFilteredListReducerFor = (filter) => {
+  const handleToggleTodo = (state, todo) => {
+    const { id, completed } = todo;
+    const shouldRemove = (
+      (completed && 'incompleted' === filter) ||
+      (!completed && 'completed' === filter)
+    );
+
+    switch (filter) {
+      case 'completed':
+      case 'incompleted':
+        return shouldRemove ? state.filter(i => i !== id) : state;
+      default:
+        return state;
+    }
+  };
+
   const ids = (state = [], action) => {
     switch (action.type) {
      case 'FETCH_TODOS_SUCCESS':
        return filter === action.filter ? action.response.map(todo => todo.id) : state;
      case 'ADD_TODO_SUCCESS':
        return filter !== 'completed' ? [...state, action.response.id] : state;
+     case 'TOGGLE_TODO_SUCCESS':
+       return handleToggleTodo(state, action.response);
      default:
        return state;
     }
