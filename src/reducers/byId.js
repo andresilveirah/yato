@@ -1,12 +1,14 @@
+import types from '../actions/types';
+
 const byId = (state = {}, action) => {
   let nextState;
   switch (action.type) {
-    case 'FETCH_TODOS_SUCCESS':
+    case types.FETCH_TODOS_SUCCESS:
       nextState = { ...state };
       action.response.forEach(todo => { nextState[todo.id] = todo; });
       return nextState;
-    case 'ADD_TODO_SUCCESS':
-    case 'TOGGLE_TODO_SUCCESS':
+    case types.ADD_TODO_SUCCESS:
+    case types.TOGGLE_TODO_SUCCESS:
       return { ...state, [action.response.id]: action.response };
     default:
       return state;
