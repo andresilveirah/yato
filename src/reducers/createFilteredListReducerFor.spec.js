@@ -1,5 +1,8 @@
+import { normalize } from 'normalizr';
+
 import createFilteredListReducerFor, { getIds, getIsFetching } from './createFilteredListReducerFor';
 import types from '../actions/types';
+import { todos, todosList } from '../actions/schema';
 
 describe('createFilteredListReducerFor', () => {
   let filter = 'filter';
@@ -28,7 +31,7 @@ describe('createFilteredListReducerFor', () => {
   describe('when the action type ADD_TODO_SUCCESS and the filter matches', () => {
     beforeEach(() => {
       type = types.ADD_TODO_SUCCESS;
-      response = { id: 1 };
+      response = normalize({ id: 1 }, todos);
     });
 
     describe('and the filter is not "completed"', () => {
@@ -57,7 +60,7 @@ describe('createFilteredListReducerFor', () => {
   describe('when the action type FETCH_TODOS_SUCCESS and the filter matches', () => {
     beforeEach(() => {
       type = types.FETCH_TODOS_SUCCESS;
-      response = [{ id: 1 }, { id: 2 }, { id: 3 }];
+      response = normalize([{ id: 1 }, { id: 2 }, { id: 3 }], todosList);
       action = { type, filter, response };
     });
 
@@ -93,7 +96,7 @@ describe('createFilteredListReducerFor', () => {
 
         describe(`and the toggled todo is also ${f}`, () => {
           beforeEach(() => {
-            response = { id: 1, completed: f === 'completed' };
+            response = normalize({ id: 1, completed: f === 'completed' }, todos);
             action = { type, filter, response };
           });
 
@@ -104,7 +107,7 @@ describe('createFilteredListReducerFor', () => {
 
         describe(`but the toggled todo is not ${f}`, () => {
           beforeEach(() => {
-            response = { id: 1, completed: f !== 'completed' };
+            response = normalize({ id: 1, completed: f !== 'completed' }, todos);
             action = { type, filter, response };
           });
 
