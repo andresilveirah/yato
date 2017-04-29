@@ -1,12 +1,8 @@
 import byId, { getTodo } from './byId';
 
 describe('createFilteredListReducerFor', () => {
-  const type = 'FETCH_TODOS_SUCCESS';
-  const response = [{ id: 1, text: 'hey' }, { id: 2, text: 'ho' }];
-
   const reducer = byId;
-  let state;
-  let action;
+  let type, response, state, action;
 
   describe('when the action type is not known', () => {
     beforeEach(() => { action = { type: 'SOMETHING_UNKNOWN' }; });
@@ -16,12 +12,48 @@ describe('createFilteredListReducerFor', () => {
     });
   });
 
+  describe('when the action type is not known', () => {
+    beforeEach(() => { action = { type: 'SOMETHING_UNKNOWN' }; });
+
+    it('simply returns its state', () => {
+      expect(reducer('some state', action)).toEqual('some state');
+    });
+  });
+
+  describe('when the action type is ADD_TODO_SUCCESS', () => {
+    beforeEach(() => {
+      type = 'ADD_TODO_SUCCESS';
+      response = { id: 1, text: 'hey' };
+      action = { type, response };
+    });
+
+    it('adds the todo to its state', () => {
+      expect(reducer({}, action)).toEqual({ 1: response });
+    });
+  });
+
+  describe('when the action type is TOGGLE_TODO_SUCCESS', () => {
+    beforeEach(() => {
+      type = 'TOGGLE_TODO_SUCCESS';
+      response = { id: 1, text: 'hey', completed: true };
+      action = { type, response };
+    });
+
+    it('updates the toggled todo', () => {
+      expect(reducer({ 1: { id: 1, text: 'hey', completed: false } }, action)).toEqual({ 1: response });
+    });
+  });
+
   describe('when the action type is FETCH_TODOS_SUCCESS', () => {
-    beforeEach(() => { action = { type, response }; });
+    beforeEach(() => {
+      type = 'FETCH_TODOS_SUCCESS';
+      response = [{ id: 1, text: 'hey' }, { id: 2, text: 'ho' }];
+      action = { type, response };
+    });
 
     describe('and the state doesnt contain the todos in the response', () => {
       it('adds the todo to its state', () => {
-        expect(reducer([], action)).toEqual({ 1: response[0], 2: response[1] });
+        expect(reducer({}, action)).toEqual({ 1: response[0], 2: response[1] });
       });
     });
 
