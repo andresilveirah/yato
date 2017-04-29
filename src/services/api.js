@@ -9,7 +9,7 @@ const fakeDB = [
   { id:  uuid(), text: 'lets go', completed: true }
 ];
 
-const fetchTodos = (filter) => delay(1000).then(() => {
+const fetchTodos = (filter) => delay(750).then(() => {
   switch (filter) {
     case 'all':
       return fakeDB;
@@ -22,13 +22,13 @@ const fetchTodos = (filter) => delay(1000).then(() => {
   }
 });
 
-const addTodo = (text) => delay(1000).then(() => {
+const addTodo = (text) => delay(500).then(() => {
   const todo = {id: uuid(), text, completed: false};
   fakeDB.push(todo);
   return todo;
 });
 
-const toggleTodo = (id) => delay(1000).then(() => {
+const toggleTodo = (id) => delay(500).then(() => {
   const todo = fakeDB.find(t => t.id === id);
   if(undefined !== todo) {
     todo.completed = !todo.completed;
