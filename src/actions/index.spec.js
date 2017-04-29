@@ -1,5 +1,6 @@
 import configStore from '../services/configStore';
 import * as actions from  './';
+import types from './types';
 import * as api from '../services/api';
 
 describe('action', () => {
@@ -14,7 +15,15 @@ describe('action', () => {
     ));
 
     return store.dispatch(actions.addTodo(todoText)).then((action) => {
-      expect(action).toMatchObject({ type: 'ADD_TODO_SUCCESS', response: todo });
+      expect(action).toEqual({
+        type: types.ADD_TODO_SUCCESS,
+        response: {
+          entities: {
+            todos: { '123': todo }
+          },
+          result: "123"
+        }
+      });
     });
   });
 
@@ -25,7 +34,15 @@ describe('action', () => {
     ));
 
     return store.dispatch(actions.toggleTodo(todo.id)).then((action) => {
-      expect(action).toMatchObject({ type: 'TOGGLE_TODO_SUCCESS', response: todo });
+      expect(action).toMatchObject({
+        type: types.TOGGLE_TODO_SUCCESS,
+        response: {
+          entities: {
+            todos: { '123': todo }
+          },
+          result: "123"
+        }
+      });
     });
   });
 
@@ -36,7 +53,7 @@ describe('action', () => {
     ));
 
     return store.dispatch(actions.toggleTodo('123')).then((action) => {
-      expect(action).toMatchObject({ type: 'TOGGLE_TODO_FAILURE', response: errorMessage });
+      expect(action).toMatchObject({ type: 'TOGGLE_TODO_FAILURE', message: errorMessage });
     });
   });
 });
