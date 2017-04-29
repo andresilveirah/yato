@@ -2,7 +2,9 @@
  * @module actions
  */
 
-// uuid is a function tha returns a unique string everytime it's called
+import { normalize } from 'normalizr';
+
+import * as schema from './schema';
 import * as api from '../services/api';
 import { getIsFetching } from '../reducers';
 import types from './types';
@@ -19,7 +21,7 @@ export const fetchTodos = (filter) => (dispatch, getState) => {
 
   return api.fetchTodos(filter).then(
     response => {
-      dispatch({ type: types.FETCH_TODOS_SUCCESS, filter, response });
+      dispatch({ type: types.FETCH_TODOS_SUCCESS, filter, response: normalize(response, schema.todosList) });
     },
     error => {
       dispatch({ type: types.FETCH_TODOS_FAILURE, filter, message: error.message });
@@ -29,9 +31,9 @@ export const fetchTodos = (filter) => (dispatch, getState) => {
 
 export const toggleTodo = (id) => (dispatch) =>
   api.toggleTodo(id).then(
-    response => dispatch({ type: types.TOGGLE_TODO_SUCCESS, response }),
-    error => dispatch({ type: types.TOGGLE_TODO_FAILURE, response: error.message })
+    response => dispatch({ type: types.TOGGLE_TODO_SUCCESS, response: normalize(response, schema.todos) }),
+    error => dispatch({ type: types.TOGGLE_TODO_FAILURE, message: error.message })
   );
 
 export const addTodo = (text) => (dispatch) =>
-  api.addTodo(text).then(response => dispatch({ type: types.ADD_TODO_SUCCESS, response }));
+  api.addTodo(text).then(response => dispatch({ type: types.ADD_TODO_SUCCESS, response: normalize(response, schema.todos) }));
