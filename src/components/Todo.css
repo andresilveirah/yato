@@ -1,0 +1,19 @@
+[class^="TodoList_Item"] {
+  cursor: pointer;
+  height: 80px;
+  display: block;
+  text-transform: uppercase;
+  color: #af544f;
+  letter-spacing: 2px;
+  box-sizing: border-box;
+  padding: 27px 33px 0 78px;
+  box-shadow: 0 1px 0 0 #e6e6e6, 0 2px 0 0 white;
+  background-image: url('https://jsbin-user-assets.s3.amazonaws.com/GarthDB/box.svg');
+  background-repeat: no-repeat;
+  background-position: 28px 16px;
+}
+
+.TodoList_Item-completed {
+  color: #92CDCF;
+  background-image: url('https://jsbin-user-assets.s3.amazonaws.com/GarthDB/done.svg')
+}
