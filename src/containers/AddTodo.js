@@ -1,35 +1,20 @@
-/**
- * @module containers/AddTodo
- */
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { addTodo } from '../actions/index';
 
-const ENTER_KEY_CODE = 13;
-
 let AddTodo = ({ dispatch }) => {
   let input;
   return (
-    <div>
-      <input
-        ref={node => { input = node; }}
-        onKeyUp={(e) => {
-          if(e.keyCode === ENTER_KEY_CODE) {
-            dispatch(addTodo(input.value));
-            input.value = '';
-          }
-        }}
-      />
-      <button
-        onClick={() => {
-          dispatch(addTodo(input.value));
-          input.value = '';
-        }}
-        >Add</button>
-    </div>
+    <form onSubmit={(e) => {
+      e.preventDefault();
+      dispatch(addTodo(input.value));
+      input.value = '';
+    }}>
+      <input ref={node => { input = node; }} />
+      <input type="submit" value="Add Todo" />
+    </form>
   );
 };
 
@@ -42,7 +27,6 @@ AddTodo.propTypes = {
  * component. The connect method when called without parameters will, by
  * default, just forward the dispatch method from the store to the presentation
  * component.
- * @return {Object} the AddTodo container component
  */
 AddTodo = connect()(AddTodo);
 
