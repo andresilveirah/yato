@@ -1,0 +1,10 @@
+.Root {
+  background-color: #ecf0f1;
+  width: 100%;
+  border-radius: 4px 4px 0 0;
+  box-shadow: 0 0 2px 1px rgba(0,0,0,0.2);
+  max-width: calc(100% - 20px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
