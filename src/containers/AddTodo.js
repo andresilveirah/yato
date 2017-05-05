@@ -3,17 +3,21 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { addTodo } from '../actions/index';
+import './AddTodo.css';
 
 let AddTodo = ({ dispatch }) => {
   let input;
   return (
-    <form onSubmit={(e) => {
-      e.preventDefault();
-      dispatch(addTodo(input.value));
-      input.value = '';
-    }}>
-      <input ref={node => { input = node; }} />
-      <input type="submit" value="Add Todo" />
+    <form
+      className='AddTodo'
+      onSubmit={(e) => {
+        e.preventDefault();
+        dispatch(addTodo(input.value));
+        input.value = '';
+      }}
+    >
+      <input className='AddTodo_Input' ref={node => { input = node; }} placeholder='Type here...'/>
+      <input className='AddTodo_Button' type='submit' value='Add Todo' />
     </form>
   );
 };
