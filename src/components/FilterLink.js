@@ -1,10 +1,8 @@
-/**
- * @module components/FilterLink
- */
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink as Link } from 'react-router-dom';
+
+import './FilterLink.css';
 
 /**
  * Uses Link component from react-router to specify the filter parameter
@@ -12,10 +10,8 @@ import { NavLink as Link } from 'react-router-dom';
 const FilterLink = ({children, filter}) => (
   <Link
     exact to={`/${filter === 'all' ? '' : filter}`}
-    activeStyle={{
-      textDecoration: 'none',
-      color: 'black'
-    }}
+    className='FilterLink'
+    activeClassName='FilterLink-Active'
   >
     {children}
   </Link>

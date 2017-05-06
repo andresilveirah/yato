@@ -1,0 +1,34 @@
+.Footer {
+  background-color: #4E8098;
+  box-sizing: border-box;
+  width: calc(100% + 40px);
+  border-radius: 2px 2px 0 0;
+  box-shadow: 0 0 2px 1px rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+  color: #02344C;
+}
+
+.Footer_List {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  list-style: none;
+  align-items: center;
+  height: 60px;
+}
+
+.Footer_ListItem {
+  flex-grow: 1;
+  height: 90%;
+}
+
+.Footer_ListItem~.Footer_ListItem{
+  box-shadow: -1px 0 0 0 #74A6BE, -2px 0 0 0 #285A72;
+}
+
+.Footer_Version {
+  margin: 0;
+}

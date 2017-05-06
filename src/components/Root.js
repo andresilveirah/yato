@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import TodoApp from './TodoApp';
+import './Root.css';
 
 const Root = ({ store }) => (
-  <div>
+  <div className='Root'>
     <header>
       <h1>Yet another TODO app</h1>
     </header>
