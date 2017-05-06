@@ -36,4 +36,9 @@ export const toggleTodo = (id) => (dispatch) =>
   );
 
 export const addTodo = (text) => (dispatch) =>
-  api.addTodo(text).then(response => dispatch({ type: types.ADD_TODO_SUCCESS, response: normalize(response, schema.todos) }));
+  api.addTodo(text).then(
+    response => dispatch({ type: types.ADD_TODO_SUCCESS, response: normalize(response, schema.todos) }
+  ));
+
+export const removeTodo = (id) => (dispatch) =>
+  api.removeTodo(id).then(() => dispatch({ type: types.REMOVE_TODO_SUCCESS, id }));
