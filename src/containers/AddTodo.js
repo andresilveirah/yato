@@ -5,22 +5,45 @@ import { connect } from 'react-redux';
 import { addTodo } from '../actions/index';
 import './AddTodo.css';
 
-let AddTodo = ({ dispatch }) => {
-  let input;
-  return (
-    <form
-      className='AddTodo'
-      onSubmit={(e) => {
-        e.preventDefault();
-        dispatch(addTodo(input.value));
-        input.value = '';
-      }}
-    >
-      <input className='AddTodo_Input' ref={node => { input = node; }} placeholder='Type here...'/>
-      <input className='AddTodo_Button' type='submit' value='Add Todo' />
-    </form>
-  );
+const validate = async (text) => {
+  if(text.replace(/\s/g,'').length === 0){ throw new Error("Can't be blank"); }
 };
+
+
+class AddTodo extends React.PureComponent {
+  constructor() {
+    super();
+    this.input = '';
+    this.state = { error: undefined };
+  }
+
+  render () {
+    const { dispatch } = this.props;
+    return (
+      <form
+        className='AddTodo'
+        onSubmit={(e) => {
+          e.preventDefault();
+          validate(this.input.value).then(
+            () => {
+              dispatch(addTodo(this.input.value));
+              this.setState({error: undefined});
+            },
+            error => this.setState({error: error.message})
+          );
+          this.input.value = '';
+        }}
+      >
+        <input
+          className='AddTodo_Input'
+          ref={node => { this.input = node; }}
+          placeholder={this.state.error === undefined ? 'Type here...' : this.state.error}
+        />
+        <input className='AddTodo_Button' type='submit' value='Add Todo' />
+      </form>
+    );
+  }
+}
 
 AddTodo.propTypes = {
   dispatch: PropTypes.func.isRequired
