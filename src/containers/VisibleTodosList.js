@@ -25,14 +25,14 @@ class VisibleTodosList extends Component {
   }
 
   render() {
-    const { toggleTodo, isFetching, errorMessage, todos } = this.props;
+    const { removeTodo, toggleTodo, isFetching, errorMessage, todos } = this.props;
 
-    if(isFetching && !todos.length) { return <p>Loading...</p>; }
+    if(isFetching && !todos.length) { return (<p>Loading...</p>); }
     if(errorMessage) {
       return <ErrorMessage message={errorMessage} onRetry={() => this.fetchData()} />;
     }
 
-    return <TodosList todos={todos} onTodoClick={ toggleTodo }/>;
+    return <TodosList todos={todos} onTodoClick={toggleTodo} onDeleteClick={removeTodo}/>;
   }
 }
 
@@ -42,6 +42,7 @@ VisibleTodosList.propTypes = {
   filter: PropTypes.oneOf(['all', 'completed', 'incompleted']).isRequired,
   fetchTodos: PropTypes.func.isRequired,
   toggleTodo: PropTypes.func.isRequired,
+  removeTodo: PropTypes.func.isRequired,
   errorMessage: PropTypes.string
 };
 

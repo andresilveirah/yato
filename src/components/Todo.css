@@ -1,19 +1,38 @@
 [class^="TodoList_Item"] {
   cursor: pointer;
   height: 80px;
-  display: block;
-  text-transform: uppercase;
-  color: #af544f;
-  letter-spacing: 2px;
+  display: flex;
+  justify-content: space-between;
   box-sizing: border-box;
   padding: 27px 33px 0 78px;
   box-shadow: 0 1px 0 0 #e6e6e6, 0 2px 0 0 white;
-  background-image: url('https://jsbin-user-assets.s3.amazonaws.com/GarthDB/box.svg');
-  background-repeat: no-repeat;
-  background-position: 28px 16px;
 }
 
-.TodoList_Item-completed {
+[class^="TodoList_Text"] {
+  order:1;
+  text-transform: uppercase;
+  color: #af544f;
+  display: inline-block;
+  width: 100%;
+}
+
+.TodoList_Text-completed {
   color: #92CDCF;
-  background-image: url('https://jsbin-user-assets.s3.amazonaws.com/GarthDB/done.svg')
+}
+
+.Todo_Delete {
+  width: 30px;
+  height: 30px;
+  background-color: transparent;
+  border: 1px solid #cecece;
+  border-radius: 3px;
+  cursor: pointer;
+  order:2;
+  box-sizing: border-box;
+  padding: 4px;
+  outline: none;
+}
+
+.Todo_Delete:hover {
+  background-color: #f5f5f5;
 }

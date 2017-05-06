@@ -25,6 +25,8 @@ const createFilteredListReducerFor = (filter) => {
        return filter === action.filter ? action.response.result : state;
      case types.ADD_TODO_SUCCESS:
        return filter !== 'completed' ? [...state, action.response.result] : state;
+     case types.REMOVE_TODO_SUCCESS:
+       return state.filter(id => id !== action.id);
      case types.TOGGLE_TODO_SUCCESS:
        return handleToggleTodo(state, action.response.entities.todos, action.response.result);
      default:

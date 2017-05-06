@@ -28,6 +28,17 @@ describe('createFilteredListReducerFor', () => {
     });
   });
 
+  describe('when receiving a REMOVE_TODO_SUCCESS action', () => {
+    beforeEach(() => {
+      type = types.REMOVE_TODO_SUCCESS;
+      action = { type, id: '123' };
+    });
+
+    it('removes the id from its state', () => {
+      expect(reducer({...state, ids: ['123', 'abc']}, action).ids).toEqual(['abc']);
+    });
+  });
+
   describe('when the action type ADD_TODO_SUCCESS and the filter matches', () => {
     beforeEach(() => {
       type = types.ADD_TODO_SUCCESS;
