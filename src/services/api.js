@@ -6,4 +6,6 @@ const addTodo = (text) => firebase.addTodo(text);
 
 const toggleTodo = (id) => firebase.toggleTodo(id);
 
-export { fetchTodos, addTodo, toggleTodo };
+const removeTodo = (id) => firebase.removeTodo(id);
+
+export { fetchTodos, addTodo, toggleTodo, removeTodo };

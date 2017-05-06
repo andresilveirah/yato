@@ -42,8 +42,10 @@ const fetchTodos = (filter) =>
 const addTodo = (text) =>
   setTodo({ id: uuid(), text, completed: false });
 
+const removeTodo = (id) => fetch(todoURL(id), { method: 'DELETE' });
+
 const toggleTodo = (id) =>
   fetchAndParseJSON(todoURL(id))
     .then(todo => setTodo({...todo, completed: !todo.completed}));
 
-export { fetchTodos, addTodo, toggleTodo };
+export { fetchTodos, addTodo, toggleTodo, removeTodo };
