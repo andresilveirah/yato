@@ -6,7 +6,11 @@ import { addTodo } from '../actions/index';
 import './AddTodo.css';
 
 const validate = async (text) => {
-  if(text.replace(/\s/g,'').length === 0){ throw new Error("Can't be blank"); }
+  if(text.replace(/\s/g,'').length === 0){
+    throw new Error("Can't be blank");
+  } else {
+    return text;
+  }
 };
 
 
@@ -25,8 +29,8 @@ class AddTodo extends React.PureComponent {
         onSubmit={(e) => {
           e.preventDefault();
           validate(this.input.value).then(
-            () => {
-              dispatch(addTodo(this.input.value));
+            (validText) => {
+              dispatch(addTodo(validText));
               this.setState({error: undefined});
             },
             error => this.setState({error: error.message})
