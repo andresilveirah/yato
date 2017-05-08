@@ -3,7 +3,6 @@
  */
 
 import React from 'react';
-import { version } from '../../package.json';
 import FilterLink from './FilterLink';
 
 import './Footer.css';
@@ -26,9 +25,6 @@ const Footer = () => (
         <FilterLink filter='incompleted'>Incompleted</FilterLink>
       </li>
     </ul>
-    <p className='Footer_Version'>
-      <small>v{ version }</small>
-    </p>
   </footer>
 );
 
