@@ -8,7 +8,7 @@ import './Root.css';
 const Root = ({ store }) => (
   <div className='Root'>
     <header>
-      <h1>Yet another TODO app</h1>
+      <h1 className='Root_Title'>Yet another TODO app</h1>
     </header>
     <Provider store={store}>
       <Router basename='/yato'>
