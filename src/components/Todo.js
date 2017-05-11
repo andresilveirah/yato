@@ -10,7 +10,14 @@ const onArchiveShortcutPress = (handler, event) => {
 };
 
 const Todo = ({text, completed, onClick, onDeleteClick}) => (
-  <li className={completed ? 'TodoList_Item-completed' : 'TodoList_Item'}>
+  <li className='TodoList_Item'>
+    <div className='TodoList_Icon'>
+      {completed &&
+        <svg style={{fill: '#b3b3b3'}} width="20" height="20" x="0" y="0" viewBox="0 0 342 342">
+          <polygon points="290 33 119 204 52 138 0 190 119 309 342 86 "/>
+        </svg>
+      }
+    </div>
     <span
       className={completed ? 'TodoList_Text-completed' : 'TodoList_Text'}
       onClick={onClick}
@@ -21,19 +28,10 @@ const Todo = ({text, completed, onClick, onDeleteClick}) => (
       {text}
     </span>
     <button className='Todo_Delete' onClick={onDeleteClick} style={{color: 'red'}}>
-      <svg width="26" height="26" viewBox="0 0 1024 1024">
-        <g style={{fill: '#b3b3b3'}}>
-          <path d="M640.35,91.169H536.971V23.991C536.971,10.469,526.064,0,512.543,0c-1.312,0-2.187,0.438-2.614,0.875
-            C509.491,0.438,508.616,0,508.179,0H265.212h-1.74h-1.75c-13.521,0-23.99,10.469-23.99,23.991v67.179H133.916
-            c-29.667,0-52.783,23.116-52.783,52.783v38.387v47.981h45.803v491.6c0,29.668,22.679,52.346,52.346,52.346h415.703
-            c29.667,0,52.782-22.678,52.782-52.346v-491.6h45.366v-47.981v-38.387C693.133,114.286,670.008,91.169,640.35,91.169z
-             M285.713,47.981h202.84v43.188h-202.84V47.981z M599.349,721.922c0,3.061-1.312,4.363-4.364,4.363H179.282
-            c-3.052,0-4.364-1.303-4.364-4.363V230.32h424.431V721.922z M644.715,182.339H129.551v-38.387c0-3.053,1.312-4.802,4.364-4.802
-            H640.35c3.053,0,4.365,1.749,4.365,4.802V182.339z"/>
-          <rect x="475.031" y="286.593" width="48.418" height="396.942"/>
-          <rect x="363.361" y="286.593" width="48.418" height="396.942"/>
-          <rect x="251.69" y="286.593" width="48.418" height="396.942"/>
-        </g>
+      <svg style={{fill: '#b3b3b3'}} width="26" height="26" viewBox="0 0 1024 1024">
+        <path d="M640 91H537V24C537 10 526 0 513 0c-1 0-2 0-3 1C509 0 509 0 508 0H265h-2 -2c-14 0-24 10-24 24v67H134c-30 0-53 23-53 53v38 48h46v492c0 30 23 52 52 52h416c30 0 53-23 53-52v-492h45v-48 -38C693 114 670 91 640 91zM286 48h203v43h-203V48zM599 722c0 3-1 4-4 4H179c-3 0-4-1-4-4V230h424V722zM645 182H130v-38c0-3 1-5 4-5H640c3 0 4 2 4 5V182z"/><rect x="475" y="287" width="48" height="397"/>
+        <rect x="363" y="287" width="48" height="397"/>
+        <rect x="252" y="287" width="48" height="397"/>
       </svg>
     </button>
   </li>

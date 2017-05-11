@@ -1,19 +1,19 @@
-[class^="TodoList_Item"] {
+.TodoList_Item {
   cursor: pointer;
-  height: 80px;
+  min-height: 80px;
   display: flex;
   justify-content: space-between;
   box-sizing: border-box;
-  padding: 27px 33px 0 78px;
+  padding: 20px 10px;
   box-shadow: 0 1px 0 0 #e6e6e6, 0 2px 0 0 white;
 }
 
 [class^="TodoList_Text"] {
-  order:1;
   text-transform: uppercase;
   color: #af544f;
   display: inline-block;
   width: 100%;
+  margin: 0 15px;
 }
 
 .TodoList_Text-completed {
@@ -27,7 +27,6 @@
   border: 1px solid #cecece;
   border-radius: 3px;
   cursor: pointer;
-  order:2;
   box-sizing: border-box;
   padding: 4px;
   outline: none;
@@ -35,4 +34,9 @@
 
 .Todo_Delete:hover {
   background-color: #f5f5f5;
+}
+
+.TodoList_Icon {
+  min-width: 20px;
+  min-height: 20px;
 }
